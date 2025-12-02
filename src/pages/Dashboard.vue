@@ -3,21 +3,36 @@ import { Column, DataTable } from 'primevue';
 import Card from '../components/shared/Card.vue';
 import DashboardCard from '../components/shared/DashboardCard.vue';
 import Title from '../components/shared/Title.vue';
+import type { Tool } from '../interfaces/tool.interface';
+import { ToolService } from '../services/tool.service';
 
     export default {
         data(): {
-            items: any[],
+            tools: Tool[],
         }
         {
             return {
-                items: [],
+                tools: [],
             }
         },
         setup() {
 
         },
         mounted() {
-
+            this.initDashboard();
+        },
+        methods: {
+            initDashboard() {
+                this.loadCardData();
+                this.loadRecentTools();
+            },
+            loadCardData() {
+                console.log('load');
+            },
+            async loadRecentTools() {
+                this.tools = await ToolService.findAll();
+                console.log('tools => ', this.tools);
+            },
         },
         components: {
             Title,
@@ -70,11 +85,12 @@ import Title from '../components/shared/Title.vue';
         </section>
         <section class="flex flex-1">
             <Card width="w-full" height="h-full">
-                <DataTable :value="items" tableStyle="min-width: 50rem">
+                <DataTable :value="tools" tableStyle="min-width: 50rem">
                     <template #empty>No data</template>
-                    <Column field="tool" header="Tool"></Column>
-                    <Column field="department" header="Department"></Column>
-                    <Column field="monthlyCost" header="Monthly Cost"></Column>
+                    <Column field="name" header="Tool"></Column>
+                    <Column field="owner_department" header="Department"></Column>
+                    <Column field="active_users_count" header="Users"></Column>
+                    <Column field="monthly_cost" header="Monthly Cost"></Column>
                     <Column field="status" header="Status"></Column>
                 </DataTable>
             </Card>
