@@ -23,7 +23,11 @@ export default {
 <template>
     <Row>
         <template #left>
-            <p>Gauche</p>
+            <p class="font-extrabold">TechCorp</p>
+            <p>Dashboard</p>
+            <p>Tools</p>
+            <p>Analytics</p>
+            <p>Settings</p>
         </template>
         <template #right>
             <p>Droite</p>
