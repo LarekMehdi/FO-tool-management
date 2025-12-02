@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Column, DataTable } from 'primevue';
+import { Column, DataTable, type DataTablePageEvent, type DataTableSortEvent } from 'primevue';
 import Card from '../components/shared/Card.vue';
 import DashboardCard from '../components/shared/DashboardCard.vue';
 import Title from '../components/shared/Title.vue';
@@ -9,15 +9,24 @@ import Tag from '../components/shared/Tag.vue';
 import type { ToolStatus } from '../constantes/tool-status.constante';
 import type { ColorGradient } from '../interfaces/shared.interface';
 import Row from '../components/shared/Row.vue';
+import type { GenericFilter } from '../interfaces/filter.interface';
+import { UtilEntity } from '../utils/entity.util';
 
 
     export default {
         data(): {
+            filter: GenericFilter,
             tools: Tool[],
+            isLastPage: boolean,      // hack, l'API ne renvois pas le totalRecords
         }
         {
             return {
+                filter: {
+                    _limit: 10,
+                    _offset: 0
+                },
                 tools: [],
+                isLastPage: false,
             }
         },
         setup() {
@@ -35,7 +44,9 @@ import Row from '../components/shared/Row.vue';
                 console.log('load');
             },
             async loadRecentTools() {
-                this.tools = await ToolService.findAll();
+                const newTools: Tool[] = await ToolService.findAll(this.filter);
+                this.tools = newTools;
+                this.isLastPage = newTools.length < this.filter._limit;
                 console.log('tools => ', this.tools);
             },
             getStatusColor(status: ToolStatus): ColorGradient {
@@ -45,6 +56,19 @@ import Row from '../components/shared/Row.vue';
                     case 'unused': return { from: 'from-red-500', to: 'to-red-700' };
                     default: return { from: 'from-gray-500', to: 'to-gray-700' };
                 }
+            },
+            onPage(event: DataTablePageEvent) {
+  
+                const tempFilter: GenericFilter = UtilEntity.updateFilterOnPage(event, this.filter);
+                this.filter._offset = tempFilter._offset;
+                this.filter._limit = tempFilter._limit; 
+                this.loadRecentTools();
+            },
+            onSort(event: DataTableSortEvent) {
+                const tempFilter: GenericFilter = UtilEntity.updateFilterOnSort(event, this.filter);
+                this.filter._sort = tempFilter._sort;
+                this.filter._order = tempFilter._order; 
+                this.loadRecentTools();
             },
         },
         components: {
@@ -111,17 +135,28 @@ import Row from '../components/shared/Row.vue';
                     </template>
                 </Row>
 
-                <DataTable class="table-class" :value="tools" tableStyle="min-width: 50rem">
+                <DataTable 
+                    class="table-class" 
+                    :value="tools" 
+                    tableStyle="min-width: 50rem"
+                    :lazy="true"
+                    :paginator="true"
+                    :rows="10"
+                    :totalRecords="isLastPage ? tools.length : 99999"
+                    style="width: 100%;"
+                    @page="onPage"
+                    @sort="onSort"
+                >
                     <template #empty>No data</template>
-                    <Column field="name" header="Tool">
+                    <Column field="name" header="Tool" sortable style="width: 40%;">
                         <template #body="slotProps">
                             <strong>{{ slotProps.data.name }}</strong>
                         </template>
                     </Column>
-                    <Column field="owner_department" header="Department"></Column>
-                    <Column field="active_users_count" header="Users"></Column>
-                    <Column field="monthly_cost" header="Monthly Cost"></Column>
-                    <Column field="status" header="Status">
+                    <Column field="owner_department" header="Department" sortable style="width: 15%;"></Column>
+                    <Column field="active_users_count" header="Users" sortable style="width: 15%;"></Column>
+                    <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 15%;"></Column>
+                    <Column field="status" header="Status" sortable style="width: 15%;">
                         <template #body="slotProps">
                             <Tag
                                 :content="slotProps.data.status"
