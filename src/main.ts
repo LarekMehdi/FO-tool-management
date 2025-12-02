@@ -4,12 +4,15 @@ import App from './App.vue'
 import router from './router'
 
 import 'primeicons/primeicons.css'
+import PrimeVue from 'primevue/config';
 
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/700.css';
 import '@fontsource/inter/800.css';
 
+const app = createApp(App);
+app.use(router);
+app.use(PrimeVue);
+ 
 
-createApp(App)
-    .use(router)
-    .mount('#app')
+app.mount('#app');

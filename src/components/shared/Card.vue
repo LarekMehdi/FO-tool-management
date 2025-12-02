@@ -16,7 +16,7 @@
 </script>
 
 <template>
-    <article :class="`${width} ${height} bg-white border rounded-lg shadow-md p-6`">
+    <article :class="`${width} ${height} bg-white border rounded-lg shadow-md p-6 flex flex-col`">
         <slot></slot>
     </article>
 </template>
