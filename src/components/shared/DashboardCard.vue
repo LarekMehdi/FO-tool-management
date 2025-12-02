@@ -2,6 +2,7 @@
 import type { IconType } from '../../constantes/icon.constante';
 import Card from './Card.vue';
 import Row from './Row.vue';
+import Tag from './Tag.vue';
 
     export default {
         props: {
@@ -12,6 +13,11 @@ import Row from './Row.vue';
             icon: {
                 type: String as () => IconType,
                 required: true
+            },
+            iconColor: {
+                type: String,
+                required: false,
+                default: 'bg-gray-200'
             },
             content: {
                 type: String,
@@ -29,6 +35,7 @@ import Row from './Row.vue';
         components: {
             Card,
             Row,
+            Tag,
         },
     }
 
@@ -40,20 +47,29 @@ import Row from './Row.vue';
             <section>
                 <Row class="mb-10">
                     <template #left>
-                        <p>{{ title }}</p>
+                        <p class="text-sm">{{ title }}</p>
                     </template>
                     <template #right>
-                        <i :class="`pi pi-${icon}`"></i>
+                        <Tag
+                            :content="icon"
+                            :isIcon="true"
+                            :color=iconColor
+                            :isRounded="true"
+                        />
                     </template>
                 </Row>
 
-                <span>
-                    <strong class="text-2xl">{{ content }}</strong>
+                <span class="text-2xl text-gray-500">
+                    <strong class="text-black">{{ content }}</strong>
                     {{ content2 ? content2 : '' }}
                 </span>
             </section>
-            
-            <p class="mt-4">{{ delta }}</p>
+            <p class="mt-4">
+                <Tag
+                    :content="delta"
+                    :color=iconColor
+                />
+            </p>
             
         </article>
     </Card>
