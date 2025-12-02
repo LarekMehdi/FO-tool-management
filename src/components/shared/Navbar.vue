@@ -1,5 +1,6 @@
 <script lang="ts">
 import InputText from '../inputs/InputText.vue';
+import NavLink from './NavLink.vue';
 import Row from './Row.vue';
 
 export default {
@@ -20,6 +21,7 @@ export default {
     components: {
         Row,
         InputText,
+        NavLink,
     }
 
 }
@@ -28,16 +30,16 @@ export default {
 </script>
 
 <template>
-    <Row class="h-16 px-6">
-        
+    <Row class="h-16 px-10">
+
         <template #left>
             <div class="flex items-center gap-6">
                 <i class="pi pi-bolt"></i>
                 <p class="font-bold">TechCorp</p>
-                <p>Dashboard</p>
-                <p class="text-gray-500">Tools</p>
-                <p class="text-gray-500">Analytics</p>
-                <p class="text-gray-500">Settings</p>
+                <NavLink to="/dashboard">Dashboard</NavLink>
+                <NavLink to="/#">Tools</NavLink>
+                <NavLink to="/#">Analytics</NavLink>
+                <NavLink to="/#">Settings</NavLink>
             </div>
             
         </template>
