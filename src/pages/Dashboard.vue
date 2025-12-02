@@ -5,6 +5,10 @@ import DashboardCard from '../components/shared/DashboardCard.vue';
 import Title from '../components/shared/Title.vue';
 import type { Tool } from '../interfaces/tool.interface';
 import { ToolService } from '../services/tool.service';
+import Tag from '../components/shared/Tag.vue';
+import type { ToolStatus } from '../constantes/tool-status.constante';
+import type { ColorGradient } from '../interfaces/shared.interface';
+
 
     export default {
         data(): {
@@ -33,6 +37,14 @@ import { ToolService } from '../services/tool.service';
                 this.tools = await ToolService.findAll();
                 console.log('tools => ', this.tools);
             },
+            getStatusColor(status: ToolStatus): ColorGradient {
+                switch(status) {
+                    case 'active': return { from: 'from-green-500', to: 'to-green-700' };
+                    case 'expiring': return { from: 'from-orange-400', to: 'to-orange-700' };
+                    case 'unused': return { from: 'from-red-500', to: 'to-red-700' };
+                    default: return { from: 'from-gray-500', to: 'to-gray-700' };
+                }
+            },
         },
         components: {
             Title,
@@ -40,6 +52,7 @@ import { ToolService } from '../services/tool.service';
             Card,
             DataTable,
             Column,
+            Tag,
         }
     }
 </script>
@@ -85,13 +98,25 @@ import { ToolService } from '../services/tool.service';
         </section>
         <section class="flex flex-1">
             <Card width="w-full" height="h-full">
-                <DataTable :value="tools" tableStyle="min-width: 50rem">
+                <DataTable class="table-class" :value="tools" tableStyle="min-width: 50rem">
                     <template #empty>No data</template>
-                    <Column field="name" header="Tool"></Column>
+                    <Column field="name" header="Tool">
+                        <template #body="slotProps">
+                            <strong>{{ slotProps.data.name }}</strong>
+                        </template>
+                    </Column>
                     <Column field="owner_department" header="Department"></Column>
                     <Column field="active_users_count" header="Users"></Column>
                     <Column field="monthly_cost" header="Monthly Cost"></Column>
-                    <Column field="status" header="Status"></Column>
+                    <Column field="status" header="Status">
+                        <template #body="slotProps">
+                            <Tag
+                                :content="slotProps.data.status"
+                                :fromColor="getStatusColor(slotProps.data.status).from"
+                                :toColor="getStatusColor(slotProps.data.status).to"
+                            />
+                        </template>
+                    </Column>
                 </DataTable>
             </Card>
         </section>
@@ -99,4 +124,14 @@ import { ToolService } from '../services/tool.service';
     
 </template>
 
-<style scoped></style>
+<style scoped>
+    ::v-deep(.table-class thead th) {
+        font-weight: normal;
+        font-size: 0.875rem;
+    }
+    ::v-deep(.table-class thead th),
+    ::v-deep(.table-class thead th span) {
+        font-weight: normal !important;
+        font-size: 0.875rem;
+    }
+</style>
