@@ -1,0 +1,1 @@
+export type ToolStatus = "active" | "unused" | "expiring";

@@ -1,0 +1,1 @@
+export type UsageFrequency = "daily" | "weekly" | "monthly" | "rarely";

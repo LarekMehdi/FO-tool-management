@@ -1,0 +1,1 @@
+export type ProficiencyLevel = "beginner" | "intermediate" | "advanced" | "expert";
