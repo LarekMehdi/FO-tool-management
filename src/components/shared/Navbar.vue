@@ -1,4 +1,5 @@
 <script lang="ts">
+import type { ToolSearchFilter } from '../../interfaces/filter.interface';
 import InputText from '../inputs/InputText.vue';
 import NavLink from './NavLink.vue';
 import Row from './Row.vue';
@@ -12,11 +13,13 @@ export default {
 
     },
     data(): {
-        item: any,
+        filter: ToolSearchFilter,
     }
     {
         return {
-            item: {}
+            filter: {
+                query: '',
+            }
         }
     },
     components: {
@@ -44,7 +47,7 @@ export default {
                     :isRounded="true"
                 />
                 <p class="font-bold">TechCorp</p>
-                <NavLink to="/dashboard">Dashboard</NavLink>
+                <NavLink to="/">Dashboard</NavLink>
                 <NavLink to="/#">Tools</NavLink>
                 <NavLink to="/#">Analytics</NavLink>
                 <NavLink to="/#">Settings</NavLink>
@@ -55,7 +58,7 @@ export default {
         <template #right>
             <!-- TODO: mettre un autocomplete -->
             <InputText
-                v-model="item.query"
+                v-model="filter.query"
                 name="itemQuery"
                 label="query"
                 :inline="true"

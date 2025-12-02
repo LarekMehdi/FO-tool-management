@@ -7,7 +7,6 @@ export interface GenericFilter {
     _order?: SortOrder;
 }
 
-export interface PageInterface<T> {
-    datas: T[];
-    totalElement: number;
+export interface ToolSearchFilter {
+    query: string;
 }
