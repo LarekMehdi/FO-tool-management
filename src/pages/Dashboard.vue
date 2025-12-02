@@ -8,6 +8,7 @@ import { ToolService } from '../services/tool.service';
 import Tag from '../components/shared/Tag.vue';
 import type { ToolStatus } from '../constantes/tool-status.constante';
 import type { ColorGradient } from '../interfaces/shared.interface';
+import Row from '../components/shared/Row.vue';
 
 
     export default {
@@ -53,6 +54,7 @@ import type { ColorGradient } from '../interfaces/shared.interface';
             DataTable,
             Column,
             Tag,
+            Row,
         }
     }
 </script>
@@ -98,6 +100,17 @@ import type { ColorGradient } from '../interfaces/shared.interface';
         </section>
         <section class="flex flex-1">
             <Card width="w-full" height="h-full">
+
+                <Row class="mb-7">
+                    <template #left>
+                        <strong>Recent Tools</strong>
+                    </template>
+                    <template #right>
+                        <i class="pi pi-calendar text-gray-500 text-sm"></i>
+                        <small class="text-gray-500">Last 30 days</small>
+                    </template>
+                </Row>
+
                 <DataTable class="table-class" :value="tools" tableStyle="min-width: 50rem">
                     <template #empty>No data</template>
                     <Column field="name" header="Tool">
