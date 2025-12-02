@@ -2,6 +2,7 @@
 import InputText from '../inputs/InputText.vue';
 import NavLink from './NavLink.vue';
 import Row from './Row.vue';
+import Tag from './Tag.vue';
 
 export default {
     setup() {
@@ -22,6 +23,7 @@ export default {
         Row,
         InputText,
         NavLink,
+        Tag,
     }
 
 }
@@ -34,7 +36,13 @@ export default {
 
         <template #left>
             <div class="flex items-center gap-6">
-                <i class="pi pi-bolt"></i>
+                <Tag
+                    content="bolt"
+                    :isIcon="true"
+                    fromColor="from-blue-500"
+                    toColor="to-purple-700"
+                    :isRounded="true"
+                />
                 <p class="font-bold">TechCorp</p>
                 <NavLink to="/dashboard">Dashboard</NavLink>
                 <NavLink to="/#">Tools</NavLink>

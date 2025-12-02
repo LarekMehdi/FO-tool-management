@@ -14,10 +14,15 @@ import Tag from './Tag.vue';
                 type: String as () => IconType,
                 required: true
             },
-            iconColor: {
+            fromColor: {
                 type: String,
                 required: false,
-                default: 'bg-gray-200'
+                default: 'from-blue-200'
+            },
+            toColor: {
+                type: String,
+                required: false,
+                default: 'to-blue-500'
             },
             content: {
                 type: String,
@@ -53,7 +58,8 @@ import Tag from './Tag.vue';
                         <Tag
                             :content="icon"
                             :isIcon="true"
-                            :color=iconColor
+                            :fromColor="fromColor"
+                            :toColor="toColor"
                             :isRounded="true"
                         />
                     </template>
@@ -67,7 +73,8 @@ import Tag from './Tag.vue';
             <p class="mt-4">
                 <Tag
                     :content="delta"
-                    :color=iconColor
+                    :fromColor="fromColor"
+                    :toColor="toColor"
                 />
             </p>
             

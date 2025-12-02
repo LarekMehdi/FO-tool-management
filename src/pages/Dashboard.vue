@@ -29,7 +29,8 @@ import Title from '../components/shared/Title.vue';
         <DashboardCard
             title="Monthly Budget"
             icon="arrow-up-right"
-            iconColor="bg-green-600"
+            fromColor="from-green-400"
+            toColor="to-green-900"
             content="oui"
             content2="non"
             delta="+12%"
@@ -37,21 +38,24 @@ import Title from '../components/shared/Title.vue';
         <DashboardCard
             title="Active Tools"
             icon="wrench"
-            iconColor="bg-blue-600"
+            fromColor="from-blue-400"
+            toColor="to-purple-700"
             content="oui"
             delta="+8$"
         />
         <DashboardCard
             title="Departments"
             icon="building"
-            iconColor="bg-orange-600"
+            fromColor="from-orange-400"
+            toColor="to-red-600"
             content="oui"
             delta="+12%"
         />
         <DashboardCard
             title="Cost/User"
             icon="users"
-            iconColor="bg-pink-600"
+            fromColor="from-fuchsia-400"
+            toColor="to-pink-600"
             content="oui"
             delta="+12%"
         />
