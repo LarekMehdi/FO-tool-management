@@ -17,7 +17,6 @@ import { UtilEntity } from '../utils/entity.util';
         data(): {
             filter: GenericFilter,
             tools: Tool[],
-            isLastPage: boolean,      // hack, l'API ne renvois pas le totalRecords
         }
         {
             return {
@@ -26,7 +25,6 @@ import { UtilEntity } from '../utils/entity.util';
                     _offset: 0
                 },
                 tools: [],
-                isLastPage: false,
             }
         },
         setup() {
@@ -41,13 +39,12 @@ import { UtilEntity } from '../utils/entity.util';
                 this.loadRecentTools();
             },
             loadCardData() {
-                console.log('load');
+                
             },
             async loadRecentTools() {
                 const newTools: Tool[] = await ToolService.findAll(this.filter);
                 this.tools = newTools;
-                this.isLastPage = newTools.length < this.filter._limit;
-                console.log('tools => ', this.tools);
+                
             },
             getStatusColor(status: ToolStatus): ColorGradient {
                 switch(status) {
@@ -135,6 +132,7 @@ import { UtilEntity } from '../utils/entity.util';
                     </template>
                 </Row>
 
+                <!-- hack, l'API ne renvois pas le totalRecords -->
                 <DataTable 
                     class="table-class" 
                     :value="tools" 
@@ -142,7 +140,7 @@ import { UtilEntity } from '../utils/entity.util';
                     :lazy="true"
                     :paginator="true"
                     :rows="10"
-                    :totalRecords="isLastPage ? tools.length : 99999"
+                    :totalRecords="99999"
                     style="width: 100%;"
                     @page="onPage"
                     @sort="onSort"
