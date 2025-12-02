@@ -11,62 +11,61 @@ import type { ColorGradient } from '../interfaces/shared.interface';
 import Row from '../components/shared/Row.vue';
 import type { GenericFilter } from '../interfaces/filter.interface';
 import { UtilEntity } from '../utils/entity.util';
+import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query';
+import { computed, reactive } from 'vue';
 
 
     export default {
-        data(): {
-            filter: GenericFilter,
-            tools: Tool[],
-        }
-        {
-            return {
-                filter: {
-                    _limit: 10,
-                    _offset: 0
-                },
-                tools: [],
-            }
-        },
         setup() {
 
-        },
-        mounted() {
-            this.initDashboard();
-        },
-        methods: {
-            initDashboard() {
-                this.loadCardData();
-                this.loadRecentTools();
-            },
-            loadCardData() {
-                
-            },
-            async loadRecentTools() {
-                const newTools: Tool[] = await ToolService.findAll(this.filter);
-                this.tools = newTools;
-                
-            },
-            getStatusColor(status: ToolStatus): ColorGradient {
+            const filter = reactive<GenericFilter>({
+                _limit: 10,
+                _offset: 0
+            });
+
+            // Query TanStack avec computed pour la queryKey réactive
+            const toolsQuery: UseQueryReturnType<Tool[], Error> = useQuery({
+                queryKey: computed(() => ['tools', filter]),
+                queryFn: () => ToolService.findAll(filter),
+                staleTime: 1000 * 60 * 5, // 5 minutes
+            });
+
+            // Computed 
+            const tools = computed(() => toolsQuery.data.value || []);
+            const loading = computed(() => toolsQuery.isLoading.value);
+
+            // Méthodes
+            const getStatusColor = (status: ToolStatus): ColorGradient => {
                 switch(status) {
                     case 'active': return { from: 'from-green-500', to: 'to-green-700' };
                     case 'expiring': return { from: 'from-orange-400', to: 'to-orange-700' };
                     case 'unused': return { from: 'from-red-500', to: 'to-red-700' };
                     default: return { from: 'from-gray-500', to: 'to-gray-700' };
                 }
-            },
-            onPage(event: DataTablePageEvent) {
-  
-                const tempFilter: GenericFilter = UtilEntity.updateFilterOnPage(event, this.filter);
-                this.filter._offset = tempFilter._offset;
-                this.filter._limit = tempFilter._limit; 
-                this.loadRecentTools();
-            },
-            onSort(event: DataTableSortEvent) {
-                const tempFilter: GenericFilter = UtilEntity.updateFilterOnSort(event, this.filter);
-                this.filter._sort = tempFilter._sort;
-                this.filter._order = tempFilter._order; 
-                this.loadRecentTools();
-            },
+            };
+
+            function onPage(event: DataTablePageEvent) {
+                const tempFilter: GenericFilter = UtilEntity.updateFilterOnPage(event, filter);
+                filter._offset = tempFilter._offset;
+                filter._limit = tempFilter._limit; 
+            }
+
+            function onSort(event: DataTableSortEvent) {
+                const tempFilter: GenericFilter = UtilEntity.updateFilterOnSort(event, filter);
+                filter._sort = tempFilter._sort;
+                filter._order = tempFilter._order; 
+            };
+
+            return {
+                filter,
+                tools,
+                loading,
+                toolsQuery,
+                getStatusColor,
+                onPage,
+                onSort
+            };
+            
         },
         components: {
             Title,
@@ -137,6 +136,7 @@ import { UtilEntity } from '../utils/entity.util';
                     class="table-class" 
                     :value="tools" 
                     tableStyle="min-width: 50rem"
+                    :loading="loading"
                     :lazy="true"
                     :paginator="true"
                     :rows="10"
@@ -146,6 +146,8 @@ import { UtilEntity } from '../utils/entity.util';
                     @sort="onSort"
                 >
                     <template #empty>No data</template>
+                    <template #loading>Loading data...</template>
+
                     <Column field="name" header="Tool" sortable style="width: 40%;">
                         <template #body="slotProps">
                             <strong>{{ slotProps.data.name }}</strong>

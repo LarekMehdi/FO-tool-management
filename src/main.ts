@@ -8,15 +8,16 @@ import PrimeVue from 'primevue/config';
 
 import Aura from '@primeuix/themes/aura';
 
-
-
+import { VueQueryPlugin, QueryClient } from '@tanstack/vue-query'
 
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/700.css';
 import '@fontsource/inter/800.css';
 
+const queryClient = new QueryClient()
 const app = createApp(App);
 app.use(router);
+app.use(VueQueryPlugin, { queryClient });
 app.use(PrimeVue, {
     theme: {
         preset: Aura
