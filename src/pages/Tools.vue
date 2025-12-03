@@ -9,6 +9,7 @@ import { computed, watch, onMounted, onUnmounted, ref, nextTick } from 'vue';
 import type { ToolListFilter } from '../interfaces/filter.interface';
 import { ToolService } from '../services/tool.service';
 import { ITEMS_PER_PAGE, SCROLL_THRESHOLD } from '../constantes/filter.constante';
+import { UtilDate } from '../utils/date.util';
 
 export default {
     setup() {
@@ -99,6 +100,7 @@ export default {
             loadingTools,
             isFetchingMore,
             hasNextPage,
+            utilDate: UtilDate,
         }
     },
     components: {
@@ -158,7 +160,7 @@ export default {
                         </div>
                     </template>
 
-                    <Column field="name" header="Tool" sortable style="width: 15%;">
+                    <Column field="name" header="Tool" sortable style="width: 10%;">
                         <template #body="slotProps">
                             <strong>{{ slotProps.data.name }}</strong>
                         </template>
@@ -166,7 +168,11 @@ export default {
                     <Column field="description" header="Description" sortable style="width: 45%;"></Column>
                     <Column field="category" header="Category" sortable style="width: 10%;"></Column>
                     <Column field="status" header="Status" sortable style="width: 5%;"></Column>
-                    <Column field="updated_at" header="Last Update" sortable style="width: 5%;"></Column>
+                    <Column field="updated_at" header="Last Update" sortable style="width: 10%;">
+                        <template #body="slotProps">
+                            {{ utilDate.formatEnglish(slotProps.data.updated_at) }}
+                        </template>
+                    </Column>
                     <Column field="department" header="Department" sortable style="width: 10%;"></Column>
                     <Column field="user_count" header="User Count" sortable style="width: 5%;"></Column>
                     <Column header="Action" style="width: 5%;"></Column>
