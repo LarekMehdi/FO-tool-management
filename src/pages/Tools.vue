@@ -5,7 +5,7 @@ import Row from '../components/shared/Row.vue';
 import Title from '../components/shared/Title.vue';
 import { useToast } from 'vue-toastification';
 import { useInfiniteQuery } from '@tanstack/vue-query';
-import { computed, watch, onMounted, onUnmounted, ref } from 'vue';
+import { computed, watch, onMounted, onUnmounted, ref, nextTick } from 'vue';
 import type { ToolListFilter } from '../interfaces/filter.interface';
 import { ToolService } from '../services/tool.service';
 import { ITEMS_PER_PAGE, SCROLL_THRESHOLD } from '../constantes/filter.constante';
@@ -84,8 +84,9 @@ export default {
             }
         }
 
-        onMounted(() => {
-            setTimeout(attachScrollListener, 300);
+        onMounted(async () => {
+            await nextTick();
+            attachScrollListener();
         });
 
         onUnmounted(() => {
