@@ -17,6 +17,7 @@ import { type DisplayAnalytics, type Analytics } from '../interfaces/analytics.i
 import { AnalyticsService } from '../services/analytics.service';
 import { emptyAnalytics } from '../data/initial.data';
 import { useToast } from 'vue-toastification';
+import { UtilNumber } from '../utils/number.util';
 
 
     export default {
@@ -99,7 +100,8 @@ import { useToast } from 'vue-toastification';
                 toolsQuery,
                 getStatusColor,
                 onPage,
-                onSort
+                onSort,
+                utilNumber: UtilNumber,
             };
             
         },
@@ -192,7 +194,11 @@ import { useToast } from 'vue-toastification';
                     </Column>
                     <Column field="owner_department" header="Department" sortable style="width: 15%;"></Column>
                     <Column field="active_users_count" header="Users" sortable style="width: 15%;"></Column>
-                    <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 15%;"></Column>
+                    <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 15%;">
+                        <template #body="slotProps">
+                            {{ utilNumber.toEnglishString(slotProps.data.monthly_cost) }}
+                        </template>
+                    </Column>
                     <Column field="status" header="Status" sortable style="width: 15%;">
                         <template #body="slotProps">
                             <Tag

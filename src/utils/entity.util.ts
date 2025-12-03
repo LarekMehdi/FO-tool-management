@@ -1,6 +1,7 @@
 import type { DataTablePageEvent, DataTableSortEvent } from "primevue";
 import type { GenericFilter } from "../interfaces/filter.interface";
 import type { Analytics, DisplayAnalytics } from "../interfaces/analytics.interface";
+import { UtilNumber } from "./number.util";
 
 export abstract class UtilEntity {
 
@@ -44,8 +45,8 @@ export abstract class UtilEntity {
 
     static buildDisplayAnalytics(analytics: Analytics, devise: string = '€'): DisplayAnalytics {
         const display: DisplayAnalytics = {
-            budget_monthly_limit:  '/' + devise + analytics.budget_overview.monthly_limit,
-            budget_current_month_total: devise  + analytics.budget_overview.current_month_total,
+            budget_monthly_limit:  '/' + UtilNumber.toShort(analytics.budget_overview.monthly_limit),
+            budget_current_month_total: UtilNumber.toEnglishString(analytics.budget_overview.current_month_total),
             active_tools: "",
             departments_count: "",
             cost_per_user: devise + analytics.cost_analytics.cost_per_user,
