@@ -17,6 +17,7 @@ import { UtilNumber } from '../utils/number.util';
 import { UtilEntity } from '../utils/entity.util';
 import Tag from '../components/shared/Tag.vue';
 import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
+import ButtonCustom from '../components/inputs/ButtonCustom.vue';
 
 export default {
     setup() {
@@ -128,6 +129,10 @@ export default {
             }
         }
 
+        function openFilters() {
+            console.log('oui');
+        }
+
         onMounted(async () => {
             await nextTick();
             attachScrollListener();
@@ -136,8 +141,6 @@ export default {
         onUnmounted(() => {
             detachScrollListener();
         });
-
-        
 
         return {
             dataTableRef,
@@ -149,8 +152,7 @@ export default {
             loadingTools,
             isFetchingMore,
             hasNextPage,
-            
-            
+            openFilters,
             utilDate: UtilDate,
             utilNumber: UtilNumber,
             utilEntity: UtilEntity,
@@ -165,6 +167,7 @@ export default {
         DashboardCard,
         Tag,
         ToolActionMenu,
+        ButtonCustom,
     },
 }
 </script>
@@ -191,6 +194,12 @@ export default {
                 :delta="utilNumber.toEnglishString(cheapestTool!.monthly_cost) + '/month'"
             />
         </section>
+
+        <Row>
+            <template #right>
+                <ButtonCustom content="Filtrer" @click="openFilters"/>
+            </template>
+        </Row>
 
         <section class="flex flex-1">
             <Card width="w-full" height="h-full">
