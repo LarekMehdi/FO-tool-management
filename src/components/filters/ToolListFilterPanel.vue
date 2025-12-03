@@ -15,7 +15,13 @@ import FilterPanel from '../shared/FilterPanel.vue';
                 required: true,
             }
         },
-        emits: ['update:display'],
+        emits: ['update:display', 'apply-filter'],
+        methods: {
+            handleApplyFilter() {
+                this.$emit('apply-filter', this.filter);
+                this.$emit('update:display', false);
+            }
+        },
         components: {
             FilterPanel,
             InputText,
@@ -24,7 +30,7 @@ import FilterPanel from '../shared/FilterPanel.vue';
 </script>
 
 <template>
-    <FilterPanel :display="display" @update:display="$emit('update:display', $event)">
+    <FilterPanel :display="display" @update:display="$emit('update:display', $event)" @apply-filter="handleApplyFilter">
         <template #body>
            
             <section class="mb-5">

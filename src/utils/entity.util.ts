@@ -29,16 +29,69 @@ export abstract class UtilEntity {
         return filter;
     }
 
-    static toJsonServerParams(filter: GenericFilter) {
+    static toJsonServerParams<T extends GenericFilter>(filter: T) {
         const params: Record<string, unknown> = {};
 
+        // pagination
         if (filter._limit !== undefined && filter._offset !== undefined) {
             params._page = Math.floor(filter._offset / filter._limit) + 1;
             params._limit = filter._limit;
         }
 
+        // tri
         if (filter._sort) params._sort = filter._sort;
         if (filter._order) params._order = filter._order;
+
+        // filtres perso
+        Object.entries(filter).forEach(([key, value]) => {
+        if (!key.startsWith('_') && value !== undefined && value !== null && value !== '') {
+            
+            //  min/max pour numbers
+            if (key.endsWith('_min') && typeof value === 'number') {
+                const baseKey = key.replace('_min', '');
+                params[`${baseKey}_gte`] = value;
+            } 
+            else if (key.endsWith('_max') && typeof value === 'number') {
+                const baseKey = key.replace('_max', '');
+                params[`${baseKey}_lte`] = value;
+            }
+            // min/max pour dates
+            else if (key.endsWith('_min') && value instanceof Date) {
+                const baseKey = key.replace('_min', '');
+                const dateMin = new Date(value);
+                dateMin.setHours(0, 0, 0, 0);
+                params[`${baseKey}_gte`] = dateMin.toISOString();
+            }
+            else if (key.endsWith('_max') && value instanceof Date) {
+                const baseKey = key.replace('_max', '');
+                const dateMax = new Date(value);
+                dateMax.setHours(23, 59, 59, 999);
+                params[`${baseKey}_lte`] = dateMax.toISOString();
+            }
+            // string
+            else if (typeof value === 'string') {
+                params[`${key}_like`] = value;
+            }
+            // number: greater than or equal
+            else if (typeof value === 'number') {
+                params[`${key}_gte`] = value;
+            }
+            // date
+            else if (value instanceof Date) {
+                const dateMin = new Date(value);
+                const dateMax = new Date(value);
+                dateMin.setHours(0, 0, 0, 0);
+                dateMax.setHours(23, 59, 59, 999);
+                params[`${key}_gte`] = dateMin.toISOString();
+                params[`${key}_lte`] = dateMax.toISOString();
+            }
+            // enum, boolean
+            else {
+                params[key] = value;
+            }
+        }
+    });
+
 
         return params;
     }

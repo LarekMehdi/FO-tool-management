@@ -17,5 +17,6 @@ export interface ToolListFilter extends GenericFilter{
     status?: ToolStatus;
     category?: string;
     owner_department?: string;
-    monthly_cost?: number;
+    monthly_cost_min?: number;
+    monthly_cost_max?: number;
 }

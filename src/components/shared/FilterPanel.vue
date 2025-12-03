@@ -17,7 +17,7 @@ import Row from './Row.vue';
                 default: 'Search'
             },
         },
-        emits: ['update:display'],
+        emits: ['update:display', 'apply-filter'],
         components: {
             Drawer,
             Row,
@@ -35,7 +35,7 @@ import Row from './Row.vue';
             <aside class="mt-10">
                 <Row>
                     <template #right>
-                        <ButtonCustom content="Filter"/>
+                        <ButtonCustom content="Filter" @click="$emit('apply-filter')"/>
                     </template>
                 </Row>
             </aside>

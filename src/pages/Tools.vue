@@ -137,6 +137,12 @@ export default {
             displayFilterDrawer.value = !displayFilterDrawer.value;
         }
 
+        function handleApplyFilter(updatedFilter: ToolListFilter) {
+            console.log('Filter applied:', updatedFilter);
+            
+            toolsQuery.refetch();
+        }
+
         onMounted(async () => {
             await nextTick();
             attachScrollListener();
@@ -159,6 +165,7 @@ export default {
             isFetchingMore,
             hasNextPage,
             toggleFilterDrawer,
+            handleApplyFilter,
             utilDate: UtilDate,
             utilNumber: UtilNumber,
             utilEntity: UtilEntity,
@@ -303,7 +310,7 @@ export default {
 
     <!-- ----------------- -->
 
-    <ToolListFilterPanel v-model:display="displayFilterDrawer" :filter="filter"/>
+    <ToolListFilterPanel v-model:display="displayFilterDrawer" :filter="filter" @apply-filter="handleApplyFilter"/>
     
 </template>
 
