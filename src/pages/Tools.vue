@@ -18,11 +18,13 @@ import { UtilEntity } from '../utils/entity.util';
 import Tag from '../components/shared/Tag.vue';
 import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
 import ButtonCustom from '../components/inputs/ButtonCustom.vue';
+import FilterPanel from '../components/shared/FilterPanel.vue';
 
 export default {
     setup() {
         const toast = useToast();
         const dataTableRef = ref<any>(null);
+        const displayFilterDrawer = ref<boolean>(false);
         let scrollListener: ((event: Event) => void) | null = null;
         
 
@@ -129,8 +131,8 @@ export default {
             }
         }
 
-        function openFilters() {
-            console.log('oui');
+        function toggleFilterDrawer() {
+            displayFilterDrawer.value = !displayFilterDrawer.value;
         }
 
         onMounted(async () => {
@@ -144,6 +146,7 @@ export default {
 
         return {
             dataTableRef,
+            displayFilterDrawer,
             tools,
             expensiveTool,
             cheapestTool,
@@ -152,7 +155,7 @@ export default {
             loadingTools,
             isFetchingMore,
             hasNextPage,
-            openFilters,
+            toggleFilterDrawer,
             utilDate: UtilDate,
             utilNumber: UtilNumber,
             utilEntity: UtilEntity,
@@ -168,6 +171,7 @@ export default {
         Tag,
         ToolActionMenu,
         ButtonCustom,
+        FilterPanel,
     },
 }
 </script>
@@ -197,7 +201,7 @@ export default {
 
         <Row>
             <template #right>
-                <ButtonCustom content="Filtrer" @click="openFilters"/>
+                <ButtonCustom content="Filter" @click="toggleFilterDrawer"/>
             </template>
         </Row>
 
@@ -294,7 +298,9 @@ export default {
         </section>
     </article>
 
+    <!-- ----------------- -->
 
+    <FilterPanel v-model:display="displayFilterDrawer"/>
     
 </template>
 
