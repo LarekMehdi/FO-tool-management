@@ -10,3 +10,7 @@ export interface GenericFilter {
 export interface ToolSearchFilter {
     query: string;
 }
+
+export interface ToolListFilter extends GenericFilter{
+
+}

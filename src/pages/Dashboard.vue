@@ -36,7 +36,7 @@ import { UtilNumber } from '../utils/number.util';
                 queryKey: computed(() => ['tools', filter]),
                 queryFn: () => ToolService.findAll(filter),
                 staleTime: 1000 * 60 * 5, // 5 minutes
-             });
+            });
 
             const analyticsQuery: UseQueryReturnType<Analytics, Error> = useQuery({
                 queryKey: computed(() => ['analytics']),
@@ -54,12 +54,12 @@ import { UtilNumber } from '../utils/number.util';
             // Watchers
             watch(() => toolsQuery.error.value, (err: unknown) => {
                 if (err) {
-                    toast.error('An error occured while fetching analytics data');
+                    toast.error('An error occured while fetching tools data');
                 }
             });
             watch(() => analyticsQuery.error.value, (err: unknown) => {
                 if (err) {
-                    toast.error('An error occured while fetching tools data');
+                    toast.error('An error occured while fetching analytics data');
                 }
             });
             // watch(() => toolsQuery.isSuccess.value, (ok) => {

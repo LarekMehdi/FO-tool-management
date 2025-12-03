@@ -16,3 +16,15 @@ export interface Tool {
     created_at: string;
     updated_at: string;
 }
+
+export interface ToolList {
+    id: number;
+    name: string;
+    description: string;
+    category: string;
+    status: ToolStatus;
+    monthly_cost: number;
+    updated_at: string;
+    owner_department: string;
+    user_count: number;
+}
