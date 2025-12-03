@@ -2,6 +2,8 @@ import type { DataTablePageEvent, DataTableSortEvent } from "primevue";
 import type { GenericFilter } from "../interfaces/filter.interface";
 import type { Analytics, DisplayAnalytics } from "../interfaces/analytics.interface";
 import { UtilNumber } from "./number.util";
+import type { ToolStatus } from "../constantes/tool-status.constante";
+import type { ColorGradient } from "../interfaces/shared.interface";
 
 export abstract class UtilEntity {
 
@@ -57,4 +59,15 @@ export abstract class UtilEntity {
         }
         return display;
     }
+
+    /** STATUS **/
+
+    static getStatusColor = (status: ToolStatus): ColorGradient => {
+        switch(status) {
+            case 'active': return { from: 'from-green-500', to: 'to-green-700' };
+            case 'expiring': return { from: 'from-orange-400', to: 'to-orange-700' };
+            case 'unused': return { from: 'from-red-500', to: 'to-red-700' };
+            default: return { from: 'from-gray-500', to: 'to-gray-700' };
+        }
+    };
 }

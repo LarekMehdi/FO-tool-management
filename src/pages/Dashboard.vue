@@ -6,8 +6,6 @@ import Title from '../components/shared/Title.vue';
 import type { Tool } from '../interfaces/tool.interface';
 import { ToolService } from '../services/tool.service';
 import Tag from '../components/shared/Tag.vue';
-import type { ToolStatus } from '../constantes/tool-status.constante';
-import type { ColorGradient } from '../interfaces/shared.interface';
 import Row from '../components/shared/Row.vue';
 import type { GenericFilter } from '../interfaces/filter.interface';
 import { UtilEntity } from '../utils/entity.util';
@@ -69,15 +67,6 @@ import { UtilNumber } from '../utils/number.util';
             // });
 
             // Méthodes
-            const getStatusColor = (status: ToolStatus): ColorGradient => {
-                switch(status) {
-                    case 'active': return { from: 'from-green-500', to: 'to-green-700' };
-                    case 'expiring': return { from: 'from-orange-400', to: 'to-orange-700' };
-                    case 'unused': return { from: 'from-red-500', to: 'to-red-700' };
-                    default: return { from: 'from-gray-500', to: 'to-gray-700' };
-                }
-            };
-
             function onPage(event: DataTablePageEvent) {
                 const tempFilter: GenericFilter = UtilEntity.updateFilterOnPage(event, filter);
                 filter._offset = tempFilter._offset;
@@ -98,10 +87,10 @@ import { UtilNumber } from '../utils/number.util';
                 loadingTools,
                 loadingAnalytics,
                 toolsQuery,
-                getStatusColor,
                 onPage,
                 onSort,
                 utilNumber: UtilNumber,
+                utilEntity: UtilEntity,
             };
             
         },
@@ -210,8 +199,8 @@ import { UtilNumber } from '../utils/number.util';
                         <template #body="slotProps">
                             <Tag
                                 :content="slotProps.data.status"
-                                :fromColor="getStatusColor(slotProps.data.status).from"
-                                :toColor="getStatusColor(slotProps.data.status).to"
+                                :fromColor="utilEntity.getStatusColor(slotProps.data.status).from"
+                                :toColor="utilEntity.getStatusColor(slotProps.data.status).to"
                             />
                         </template>
                     </Column>

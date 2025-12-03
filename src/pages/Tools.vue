@@ -14,6 +14,8 @@ import DashboardCard from '../components/shared/DashboardCard.vue';
 import type { SmallTool } from '../interfaces/tool.interface';
 import { emptySmallTool } from '../data/initial.data';
 import { UtilNumber } from '../utils/number.util';
+import { UtilEntity } from '../utils/entity.util';
+import Tag from '../components/shared/Tag.vue';
 
 export default {
     setup() {
@@ -146,6 +148,7 @@ export default {
             hasNextPage,
             utilDate: UtilDate,
             utilNumber: UtilNumber,
+            utilEntity: UtilEntity,
         }
     },
     components: {
@@ -155,6 +158,7 @@ export default {
         DataTable,
         Column,
         DashboardCard,
+        Tag,
     },
 }
 </script>
@@ -227,11 +231,23 @@ export default {
                             <strong>{{ slotProps.data.name }}</strong>
                         </template>
                     </Column>
-                    <Column field="description" header="Description" sortable style="width: 40%;"></Column>
+                    <Column field="description" header="Description" sortable style="width: 35%;"></Column>
                     <Column field="category" header="Category" sortable style="width: 10%;"></Column>
-                    <Column field="status" header="Status" sortable style="width: 5%;"></Column>
-                    <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 5%;"></Column>
-                    <Column field="updated_at" header="Last Update" sortable style="width: 10%;">
+                    <Column field="status" header="Status" sortable style="width: 5%;">
+                        <template #body="slotProps">
+                            <Tag
+                                :content="slotProps.data.status"
+                                :fromColor="utilEntity.getStatusColor(slotProps.data.status).from"
+                                :toColor="utilEntity.getStatusColor(slotProps.data.status).to"
+                            />
+                        </template>
+                    </Column>
+                    <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 5%;">
+                        <template #body="slotProps">
+                            {{ utilNumber.toEnglishString(slotProps.data.monthly_cost) }}
+                        </template>
+                    </Column>
+                    <Column field="updated_at" header="Last Update" sortable style="width: 15%;">
                         <template #body="slotProps">
                             {{ utilDate.formatEnglish(slotProps.data.updated_at) }}
                         </template>
