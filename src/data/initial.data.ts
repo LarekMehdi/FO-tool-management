@@ -1,4 +1,5 @@
 import type { Analytics } from "../interfaces/analytics.interface";
+import type { SmallTool } from "../interfaces/tool.interface";
 
 export const emptyAnalytics: Analytics = {
   budget_overview: {
@@ -21,3 +22,9 @@ export const emptyAnalytics: Analytics = {
     total_users: 0
   }
 };
+
+export const emptySmallTool: SmallTool = {
+  id: 0,
+  name: "",
+  monthly_cost: 0
+}

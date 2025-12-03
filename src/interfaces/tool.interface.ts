@@ -28,3 +28,9 @@ export interface ToolList {
     owner_department: string;
     user_count: number;
 }
+
+export interface SmallTool {
+    id: number;
+    name: string;
+    monthly_cost: number;
+}

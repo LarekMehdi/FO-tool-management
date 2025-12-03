@@ -13,4 +13,28 @@ export abstract class ToolService {
     static async findAllForList(filter: ToolListFilter) {
         return await ToolApi.findAllForList(filter);
     }
+
+    /** FIND **/
+
+    static async findMostExpensive() {
+        const filter: ToolListFilter = {
+            _limit: 1,
+            _offset: 0,
+            _order: 'desc',
+            _sort: 'monthly_cost',
+            status: 'active',
+        };
+        return await ToolApi.findAll(filter);
+    }
+
+    static async findCheapest() {
+        const filter: ToolListFilter = {
+            _limit: 1,
+            _offset: 0,
+            _order: 'asc',
+            _sort: 'monthly_cost',
+            status: 'active',
+        };
+        return await ToolApi.findAll(filter);
+    }
 }

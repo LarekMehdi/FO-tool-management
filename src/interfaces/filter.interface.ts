@@ -1,4 +1,5 @@
 import type { SortOrder } from "../constantes/filter.constante";
+import type { ToolStatus } from "../constantes/tool-status.constante";
 
 export interface GenericFilter {
     _limit: number;
@@ -12,5 +13,5 @@ export interface ToolSearchFilter {
 }
 
 export interface ToolListFilter extends GenericFilter{
-
+    status?: ToolStatus;
 }

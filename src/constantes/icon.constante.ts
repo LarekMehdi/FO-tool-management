@@ -1,1 +1,1 @@
-export type IconType = 'arrow-up-right' | 'wrench' | 'building' | 'users' | 'bolt';
+export type IconType = 'arrow-up-right' | 'wrench' | 'building' | 'users' | 'bolt' | 'dollar' | 'chart-line' | 'trophy';

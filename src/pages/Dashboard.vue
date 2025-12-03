@@ -42,7 +42,7 @@ import { UtilNumber } from '../utils/number.util';
                 queryKey: computed(() => ['analytics']),
                 queryFn: () => AnalyticsService.find(),
                 staleTime: 1000 * 60 * 5,
-            })
+            });
 
             // Computed 
             const tools = computed(() => toolsQuery.data.value ?? []);
@@ -124,7 +124,7 @@ import { UtilNumber } from '../utils/number.util';
         <section class="grid grid-cols-4 gap-6 sm:grid-cols-2 md:grid-cols-4">
             <DashboardCard
                 title="Monthly Budget"
-                icon="arrow-up-right"
+                icon="chart-line"
                 fromColor="from-green-400"
                 toColor="to-green-900"
                 :content="displayAnalytics.budget_current_month_total"
