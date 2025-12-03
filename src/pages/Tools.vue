@@ -16,13 +16,14 @@ import { emptySmallTool } from '../data/initial.data';
 import { UtilNumber } from '../utils/number.util';
 import { UtilEntity } from '../utils/entity.util';
 import Tag from '../components/shared/Tag.vue';
+import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
 
 export default {
     setup() {
         const toast = useToast();
-
         const dataTableRef = ref<any>(null);
         let scrollListener: ((event: Event) => void) | null = null;
+        
 
         // Infinite Query
         const toolsQuery = useInfiniteQuery({
@@ -136,6 +137,8 @@ export default {
             detachScrollListener();
         });
 
+        
+
         return {
             dataTableRef,
             tools,
@@ -146,6 +149,8 @@ export default {
             loadingTools,
             isFetchingMore,
             hasNextPage,
+            
+            
             utilDate: UtilDate,
             utilNumber: UtilNumber,
             utilEntity: UtilEntity,
@@ -159,6 +164,7 @@ export default {
         Column,
         DashboardCard,
         Tag,
+        ToolActionMenu,
     },
 }
 </script>
@@ -254,7 +260,18 @@ export default {
                     </Column>
                     <Column field="owner_department" header="Department" sortable style="width: 10%;"></Column>
                     <Column field="active_users_count" header="User Count" sortable style="width: 5%;"></Column>
-                    <Column header="Action" style="width: 5%;"></Column>
+                    <Column header="Action" style="width: 5%;">
+                        <template #body="slotProps">
+                            <section class="flex justify-center items-center">
+                                 <ToolActionMenu
+                                    :modelValue="slotProps.data.id"
+                                    @details="(id: number) => console.log('open details', id)"
+                                    @edit="(id: number) => console.log('edit', id)"
+                                    @delete="(id: number) => console.log('delete', id)"
+                                />
+                            </section>
+                        </template>
+                    </Column>
                 </DataTable>
 
                 <div v-if="isFetchingMore" class="text-center py-3 border-t">
@@ -267,6 +284,9 @@ export default {
             </Card>
         </section>
     </article>
+
+
+    
 </template>
 
 <style scoped>

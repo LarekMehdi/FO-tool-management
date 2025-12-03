@@ -16,6 +16,7 @@ import { AnalyticsService } from '../services/analytics.service';
 import { emptyAnalytics } from '../data/initial.data';
 import { useToast } from 'vue-toastification';
 import { UtilNumber } from '../utils/number.util';
+import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
 
 
     export default {
@@ -102,6 +103,7 @@ import { UtilNumber } from '../utils/number.util';
             Column,
             Tag,
             Row,
+            ToolActionMenu,
         }
     }
 </script>
@@ -202,6 +204,18 @@ import { UtilNumber } from '../utils/number.util';
                                 :fromColor="utilEntity.getStatusColor(slotProps.data.status).from"
                                 :toColor="utilEntity.getStatusColor(slotProps.data.status).to"
                             />
+                        </template>
+                    </Column>
+                    <Column header="Action" style="width: 5%;">
+                        <template #body="slotProps">
+                            <section class="flex justify-center items-center">
+                                 <ToolActionMenu
+                                    :modelValue="slotProps.data.id"
+                                    @details="(id: number) => console.log('open details', id)"
+                                    @edit="(id: number) => console.log('edit', id)"
+                                    @delete="(id: number) => console.log('delete', id)"
+                                />
+                            </section>
                         </template>
                     </Column>
                 </DataTable>
