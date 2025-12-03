@@ -12,14 +12,17 @@ import Row from '../components/shared/Row.vue';
 import type { GenericFilter } from '../interfaces/filter.interface';
 import { UtilEntity } from '../utils/entity.util';
 import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query';
-import { computed, reactive } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { type DisplayAnalytics, type Analytics } from '../interfaces/analytics.interface';
 import { AnalyticsService } from '../services/analytics.service';
 import { emptyAnalytics } from '../data/initial.data';
+import { useToast } from 'vue-toastification';
 
 
     export default {
         setup() {
+
+            const toast = useToast();
 
             const filter = reactive<GenericFilter>({
                 _limit: 10,
@@ -32,7 +35,7 @@ import { emptyAnalytics } from '../data/initial.data';
                 queryKey: computed(() => ['tools', filter]),
                 queryFn: () => ToolService.findAll(filter),
                 staleTime: 1000 * 60 * 5, // 5 minutes
-            });
+             });
 
             const analyticsQuery: UseQueryReturnType<Analytics, Error> = useQuery({
                 queryKey: computed(() => ['analytics']),
@@ -46,6 +49,23 @@ import { emptyAnalytics } from '../data/initial.data';
             const analytics = computed<Analytics>(() => analyticsQuery.data.value ?? emptyAnalytics);
             const loadingAnalytics = computed(() => analyticsQuery.isLoading.value);
             const displayAnalytics = computed<DisplayAnalytics>(() => UtilEntity.buildDisplayAnalytics(analytics.value));
+
+            // Watchers
+            watch(() => toolsQuery.error.value, (err: unknown) => {
+                if (err) {
+                    toast.error('An error occured while fetching analytics data');
+                }
+            });
+            watch(() => analyticsQuery.error.value, (err: unknown) => {
+                if (err) {
+                    toast.error('An error occured while fetching tools data');
+                }
+            });
+            // watch(() => toolsQuery.isSuccess.value, (ok) => {
+            //     if (ok) {
+            //         toast.success("Tools loaded successfully !");
+            //     }
+            // });
 
             // Méthodes
             const getStatusColor = (status: ToolStatus): ColorGradient => {
