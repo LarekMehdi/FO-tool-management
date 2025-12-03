@@ -235,8 +235,8 @@ export default {
                             {{ utilDate.formatEnglish(slotProps.data.updated_at) }}
                         </template>
                     </Column>
-                    <Column field="department" header="Department" sortable style="width: 10%;"></Column>
-                    <Column field="user_count" header="User Count" sortable style="width: 5%;"></Column>
+                    <Column field="owner_department" header="Department" sortable style="width: 10%;"></Column>
+                    <Column field="active_users_count" header="User Count" sortable style="width: 5%;"></Column>
                     <Column header="Action" style="width: 5%;"></Column>
                 </DataTable>
 
