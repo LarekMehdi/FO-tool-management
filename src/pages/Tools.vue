@@ -18,7 +18,8 @@ import { UtilEntity } from '../utils/entity.util';
 import Tag from '../components/shared/Tag.vue';
 import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
 import ButtonCustom from '../components/inputs/ButtonCustom.vue';
-import FilterPanel from '../components/shared/FilterPanel.vue';
+import ToolListFilterPanel from '../components/filters/ToolListFilterPanel.vue';
+import { filter } from '@primeuix/themes/nora/tree';
 
 export default {
     setup() {
@@ -26,16 +27,17 @@ export default {
         const dataTableRef = ref<any>(null);
         const displayFilterDrawer = ref<boolean>(false);
         let scrollListener: ((event: Event) => void) | null = null;
+        const filter: ToolListFilter = {
+            _limit: ITEMS_PER_PAGE,
+            _offset: 0
+        };
         
 
         // Infinite Query
         const toolsQuery = useInfiniteQuery({
             queryKey: ['tool-list-infinite'],
             queryFn: async ({ pageParam = 0 }) => {
-                const filter: ToolListFilter = {
-                    _limit: ITEMS_PER_PAGE,
-                    _offset: pageParam
-                };
+                filter._offset = pageParam;
                 return await ToolService.findAllForList(filter);
             },
             getNextPageParam: (lastPage, allPages) => {
@@ -147,6 +149,7 @@ export default {
         return {
             dataTableRef,
             displayFilterDrawer,
+            filter,
             tools,
             expensiveTool,
             cheapestTool,
@@ -171,7 +174,7 @@ export default {
         Tag,
         ToolActionMenu,
         ButtonCustom,
-        FilterPanel,
+        ToolListFilterPanel,
     },
 }
 </script>
@@ -300,7 +303,7 @@ export default {
 
     <!-- ----------------- -->
 
-    <FilterPanel v-model:display="displayFilterDrawer"/>
+    <ToolListFilterPanel v-model:display="displayFilterDrawer" :filter="filter"/>
     
 </template>
 

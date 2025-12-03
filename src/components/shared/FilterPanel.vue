@@ -29,10 +29,10 @@ import Row from './Row.vue';
 <template>
     <Drawer :display="display" :header="header" @update:display="$emit('update:display', $event)">
         <template #body>
-            <article>
+            <article class="mt-5">
                 <slot name="body"></slot>
             </article>
-            <aside>
+            <aside class="mt-10">
                 <Row>
                     <template #right>
                         <ButtonCustom content="Filter"/>

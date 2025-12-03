@@ -1,4 +1,6 @@
 <script lang="ts">
+import type { PropType } from 'vue';
+
     export default {
         data() {
             return {
@@ -7,8 +9,8 @@
         },
         props: {
             modelValue: {
-                type: [String, null],
-                required: true,
+                type: String as PropType<string | undefined>,
+                required: false,
             },
             label: {
                 type: String,
@@ -74,7 +76,7 @@
 </script>
 
 <template>
-    <div :class="inline ? 'flex items-center gap-2' : ''">
+    <div :class="inline ? 'flex items-center gap-2 w-full' : 'w-full'">
         <label 
             v-if="displayLabel" 
             :for="name" 
@@ -82,12 +84,12 @@
         >
             {{ label }} {{ isRequired && displayLabel ? ' *' : '' }}
         </label>
-        <aside class="flex items-center border rounded-lg overflow-hidden">
+        <aside class="flex items-center border rounded-lg overflow-hidden w-full">
             <input
                 type="text"
                 :name="name"
                 :placeholder="placeholder"
-                :class="`${inputClass}`"
+                :class="`${inputClass} pl-4 flex-1`"
                 :value="modelValue"
                 :disabled="disabled"
                 :readonly="readonly"

@@ -13,5 +13,9 @@ export interface ToolSearchFilter {
 }
 
 export interface ToolListFilter extends GenericFilter{
+    name?: string;
     status?: ToolStatus;
+    category?: string;
+    owner_department?: string;
+    monthly_cost?: number;
 }
