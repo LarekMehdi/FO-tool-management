@@ -25,3 +25,15 @@ export interface CostAnalytics {
     active_users: number;           // 56
     total_users: number;            // 66
 }
+
+export interface DisplayAnalytics {
+    budget_monthly_limit: string;
+    budget_current_month_total: string;
+    active_tools: string;
+    departments_count: string;
+    cost_per_user: string;
+    budget_change: string;
+    tools_change: string;
+    departments_change: string;
+    cost_by_user_change: string;
+}

@@ -47,6 +47,7 @@ import Tag from './Tag.vue';
 </script>
 
 <template>
+    <!-- TODO: hover -->
     <Card>
         <article class="flex flex-col justify-between h-full">
             <section>

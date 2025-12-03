@@ -13,6 +13,9 @@ import type { GenericFilter } from '../interfaces/filter.interface';
 import { UtilEntity } from '../utils/entity.util';
 import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query';
 import { computed, reactive } from 'vue';
+import { type DisplayAnalytics, type Analytics } from '../interfaces/analytics.interface';
+import { AnalyticsService } from '../services/analytics.service';
+import { emptyAnalytics } from '../data/initial.data';
 
 
     export default {
@@ -24,15 +27,25 @@ import { computed, reactive } from 'vue';
             });
 
             // Query TanStack avec computed pour la queryKey réactive
+            // TODO: updated_at <= 30 jours
             const toolsQuery: UseQueryReturnType<Tool[], Error> = useQuery({
                 queryKey: computed(() => ['tools', filter]),
                 queryFn: () => ToolService.findAll(filter),
                 staleTime: 1000 * 60 * 5, // 5 minutes
             });
 
+            const analyticsQuery: UseQueryReturnType<Analytics, Error> = useQuery({
+                queryKey: computed(() => ['analytics']),
+                queryFn: () => AnalyticsService.find(),
+                staleTime: 1000 * 60 * 5,
+            })
+
             // Computed 
-            const tools = computed(() => toolsQuery.data.value || []);
-            const loading = computed(() => toolsQuery.isLoading.value);
+            const tools = computed(() => toolsQuery.data.value ?? []);
+            const loadingTools = computed(() => toolsQuery.isLoading.value);
+            const analytics = computed<Analytics>(() => analyticsQuery.data.value ?? emptyAnalytics);
+            const loadingAnalytics = computed(() => analyticsQuery.isLoading.value);
+            const displayAnalytics = computed<DisplayAnalytics>(() => UtilEntity.buildDisplayAnalytics(analytics.value));
 
             // Méthodes
             const getStatusColor = (status: ToolStatus): ColorGradient => {
@@ -59,7 +72,10 @@ import { computed, reactive } from 'vue';
             return {
                 filter,
                 tools,
-                loading,
+                analytics,
+                displayAnalytics,
+                loadingTools,
+                loadingAnalytics,
                 toolsQuery,
                 getStatusColor,
                 onPage,
@@ -89,33 +105,33 @@ import { computed, reactive } from 'vue';
                 icon="arrow-up-right"
                 fromColor="from-green-400"
                 toColor="to-green-900"
-                content="oui"
-                content2="non"
-                delta="+12%"
+                :content="displayAnalytics.budget_current_month_total"
+                :content2="displayAnalytics.budget_monthly_limit"
+                :delta="displayAnalytics.budget_change"
             />
             <DashboardCard
                 title="Active Tools"
                 icon="wrench"
                 fromColor="from-blue-400"
                 toColor="to-purple-700"
-                content="oui"
-                delta="+8$"
+                :content="displayAnalytics.active_tools"
+                :delta="displayAnalytics.tools_change"
             />
             <DashboardCard
                 title="Departments"
                 icon="building"
                 fromColor="from-orange-400"
                 toColor="to-red-600"
-                content="oui"
-                delta="+12%"
+                :content="displayAnalytics.departments_count"
+                :delta="displayAnalytics.departments_change"
             />
             <DashboardCard
                 title="Cost/User"
                 icon="users"
                 fromColor="from-fuchsia-400"
                 toColor="to-pink-600"
-                content="oui"
-                delta="+12%"
+                :content="displayAnalytics.cost_per_user"
+                :delta="displayAnalytics.cost_by_user_change"
             />
         </section>
         <section class="flex flex-1">
@@ -131,12 +147,13 @@ import { computed, reactive } from 'vue';
                     </template>
                 </Row>
 
+                <!-- TODO: hover rows -->
                 <!-- hack, l'API ne renvois pas le totalRecords -->
                 <DataTable 
                     class="table-class" 
                     :value="tools" 
                     tableStyle="min-width: 50rem"
-                    :loading="loading"
+                    :loading="loadingTools"
                     :lazy="true"
                     :paginator="true"
                     :rows="10"

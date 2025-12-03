@@ -1,5 +1,6 @@
 import type { DataTablePageEvent, DataTableSortEvent } from "primevue";
 import type { GenericFilter } from "../interfaces/filter.interface";
+import type { Analytics, DisplayAnalytics } from "../interfaces/analytics.interface";
 
 export abstract class UtilEntity {
 
@@ -37,5 +38,22 @@ export abstract class UtilEntity {
         if (filter._order) params._order = filter._order;
 
         return params;
+    }
+
+    /** ANALYTICS **/
+
+    static buildDisplayAnalytics(analytics: Analytics, devise: string = '€'): DisplayAnalytics {
+        const display: DisplayAnalytics = {
+            budget_monthly_limit:  '/' + devise + analytics.budget_overview.monthly_limit,
+            budget_current_month_total: devise  + analytics.budget_overview.current_month_total,
+            active_tools: "",
+            departments_count: "",
+            cost_per_user: devise + analytics.cost_analytics.cost_per_user,
+            budget_change: analytics.kpi_trends.budget_change,
+            tools_change: analytics.kpi_trends.tools_change,
+            departments_change: analytics.kpi_trends.departments_change,
+            cost_by_user_change: analytics.kpi_trends.cost_per_user_change,
+        }
+        return display;
     }
 }
