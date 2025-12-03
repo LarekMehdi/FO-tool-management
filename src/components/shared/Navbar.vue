@@ -48,7 +48,7 @@ export default {
                 />
                 <p class="font-bold">TechCorp</p>
                 <NavLink to="/">Dashboard</NavLink>
-                <NavLink to="/#">Tools</NavLink>
+                <NavLink to="/tools">Tools</NavLink>
                 <NavLink to="/#">Analytics</NavLink>
                 <NavLink to="/#">Settings</NavLink>
             </div>
