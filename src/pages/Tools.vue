@@ -186,8 +186,11 @@ export default {
             <Card width="w-full" height="h-full">
                 <Row class="mb-7">
                     <template #left>
-                        <strong>All Tools</strong>
-                        <span class="ml-2 text-sm text-gray-500">({{ tools.length }} loaded)</span>
+                        <div class="flex items-baseline">
+                            <strong>All Tools</strong>
+                            <small class="ml-2 text-gray-500">({{ tools.length }} loaded)</small>
+                        </div>
+                        
                     </template>
                     <template #right>
                         <span v-if="hasNextPage" class="text-sm text-gray-500">
@@ -210,9 +213,7 @@ export default {
                     style="width: 100%;"
                 >
                     <template #empty>
-                        <div class="text-center py-8 text-gray-500">
-                            No tools found
-                        </div>
+                        <div class="text-center py-8 text-gray-500"> No tools found </div>
                     </template>
                     
                     <template #loading>

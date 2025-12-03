@@ -184,8 +184,15 @@ import { UtilNumber } from '../utils/number.util';
                     @page="onPage"
                     @sort="onSort"
                 >
-                    <template #empty>No data</template>
-                    <template #loading>Loading data...</template>
+                    <template #empty>
+                        <div class="text-center py-8 text-gray-500"> No data </div>
+                    </template>
+                    
+                    <template #loading>
+                        <div class="text-center py-8">
+                            <span class="text-gray-600">Loading data...</span>
+                        </div>
+                    </template>
 
                     <Column field="name" header="Tool" sortable style="width: 40%;">
                         <template #body="slotProps">
