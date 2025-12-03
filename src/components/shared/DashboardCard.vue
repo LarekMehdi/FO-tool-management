@@ -66,10 +66,11 @@ import Tag from './Tag.vue';
                     </template>
                 </Row>
 
-                <span class="text-2xl text-gray-500">
+                <span class="text-2xl text-gray-500 truncate block">
                     <strong class="text-black">{{ content }}</strong>
                     {{ content2 ? content2 : '' }}
                 </span>
+                
             </section>
             <p class="mt-4">
                 <Tag
