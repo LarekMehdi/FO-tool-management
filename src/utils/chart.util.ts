@@ -3,6 +3,7 @@ import type { MonthlyCostAnalytics } from "../interfaces/analytics.interface";
 import type { ChartDataset, LineChartData } from "../interfaces/chart.interface";
 import { generateRandomColor } from "../constantes/color.constante";
 import type { DepartmentCost } from "../interfaces/department.interface";
+import { UtilNumber } from "./number.util";
 
 export abstract class UtilChart {
 
@@ -84,8 +85,8 @@ export abstract class UtilChart {
                     callbacks: {
                         label: (context) => {
                             const label = context.label || '';
-                            const value = context.raw || 0;
-                            return `${label}: €${value}`;
+                            const value = UtilNumber.toEnglishString(Number(context.raw)) || 0;
+                            return `${label}: ${value}`;
                         },
                     },
                 },
