@@ -290,12 +290,12 @@ export default {
                     </Column>
                     <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 5%;">
                         <template #body="slotProps">
-                            {{ utilNumber.toEnglishString(slotProps.data.monthly_cost) }}
+                            {{ slotProps.data.monthly_cost ? utilNumber.toEnglishString(slotProps.data.monthly_cost) : '-' }}
                         </template>
                     </Column>
                     <Column field="updated_at" header="Last Update" sortable style="width: 15%;">
                         <template #body="slotProps">
-                            {{ utilDate.formatEnglish(slotProps.data.updated_at) }}
+                            {{ slotProps.data.updated_at ? utilDate.formatEnglish(slotProps.data.updated_at) : '-' }}
                         </template>
                     </Column>
                     <Column field="owner_department" header="Department" sortable style="width: 10%;"></Column>

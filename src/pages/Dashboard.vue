@@ -199,13 +199,13 @@ import Icon from '../components/shared/Icon.vue';
                     <Column field="active_users_count" header="Users" sortable style="width: 15%;"></Column>
                     <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 15%;">
                         <template #body="slotProps">
-                            {{ utilNumber.toEnglishString(slotProps.data.monthly_cost) }}
+                            {{ slotProps.data.monthly_cost ? utilNumber.toEnglishString(slotProps.data.monthly_cost) : '-' }}
                         </template>
                     </Column>
                     <Column field="status" header="Status" sortable style="width: 15%;">
                         <template #body="slotProps">
                             <Tag
-                                :content="slotProps.data.status"
+                                :content="slotProps.data.status ?? 'unknown'"
                                 :fromColor="utilEntity.getStatusColor(slotProps.data.status).from"
                                 :toColor="utilEntity.getStatusColor(slotProps.data.status).to"
                             />
@@ -214,7 +214,7 @@ import Icon from '../components/shared/Icon.vue';
                     <Column header="Action" style="width: 5%;">
                         <template #body="slotProps">
                             <section class="flex justify-center items-center">
-                                 <ToolActionMenu
+                                <ToolActionMenu
                                     :modelValue="slotProps.data.id"
                                     @details="(id: number) => console.log('open details', id)"
                                     @edit="(id: number) => console.log('edit', id)"
