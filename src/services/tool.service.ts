@@ -10,13 +10,13 @@ export abstract class ToolService {
         return await ToolApi.findAll(filter);
     }
 
-    static async findAllForList(filter: ToolListFilter) {
+    static async findAllForList(filter: ToolListFilter): Promise<Tool[]> {
         return await ToolApi.findAllForList(filter);
     }
 
     /** FIND **/
 
-    static async findMostExpensive() {
+    static async findMostExpensive(): Promise<Tool[]> {
         const filter: ToolListFilter = {
             _limit: 1,
             _offset: 0,
@@ -27,7 +27,7 @@ export abstract class ToolService {
         return await ToolApi.findAll(filter);
     }
 
-    static async findCheapest() {
+    static async findCheapest(): Promise<Tool[]> {
         const filter: ToolListFilter = {
             _limit: 1,
             _offset: 0,

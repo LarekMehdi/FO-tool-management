@@ -17,6 +17,7 @@ import { emptyAnalytics } from '../data/initial.data';
 import { useToast } from 'vue-toastification';
 import { UtilNumber } from '../utils/number.util';
 import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
+import Icon from '../components/shared/Icon.vue';
 
 
     export default {
@@ -104,6 +105,7 @@ import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
             Tag,
             Row,
             ToolActionMenu,
+            Icon,
         }
     }
 </script>
@@ -187,7 +189,10 @@ import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
 
                     <Column field="name" header="Tool" sortable style="width: 40%;">
                         <template #body="slotProps">
-                            <strong>{{ slotProps.data.name }}</strong>
+                            <section class="flex items-center gap-8">
+                                <Icon :iconUrl="slotProps.data.icon_url"/>
+                                <strong>{{ slotProps.data.name }}</strong>
+                            </section>
                         </template>
                     </Column>
                     <Column field="owner_department" header="Department" sortable style="width: 15%;"></Column>

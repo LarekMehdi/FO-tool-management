@@ -20,6 +20,7 @@ import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
 import ButtonCustom from '../components/inputs/ButtonCustom.vue';
 import ToolListFilterPanel from '../components/filters/ToolListFilterPanel.vue';
 import { filter } from '@primeuix/themes/nora/tree';
+import Icon from '../components/shared/Icon.vue';
 
 export default {
     setup() {
@@ -194,6 +195,7 @@ export default {
         ToolActionMenu,
         ButtonCustom,
         ToolListFilterPanel,
+        Icon,
     },
 }
 </script>
@@ -269,7 +271,10 @@ export default {
 
                     <Column field="name" header="Tool" sortable style="width: 10%;">
                         <template #body="slotProps">
-                            <strong>{{ slotProps.data.name }}</strong>
+                            <section class="flex items-center gap-8">
+                                <Icon :iconUrl="slotProps.data.icon_url"/>
+                                <strong>{{ slotProps.data.name }}</strong>
+                            </section>
                         </template>
                     </Column>
                     <Column field="description" header="Description" sortable style="width: 35%;"></Column>
