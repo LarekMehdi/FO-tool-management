@@ -337,7 +337,13 @@ export default {
 </template>
 
 <style scoped>
-.table-class :deep(.p-datatable-table-container) {
-    scroll-behavior: smooth;
-}
+    .table-class :deep(.p-datatable-table-container) {
+        scroll-behavior: smooth;
+    }
+    ::v-deep(.table-class tbody tr) {
+        transition: background-color 0.2s ease;
+    }
+    ::v-deep(.table-class tbody tr:hover) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
 </style>

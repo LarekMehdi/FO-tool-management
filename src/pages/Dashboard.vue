@@ -240,4 +240,10 @@ import Icon from '../components/shared/Icon.vue';
         font-weight: normal !important;
         font-size: 0.875rem;
     }
+    ::v-deep(.table-class tbody tr) {
+        transition: background-color 0.2s ease;
+    }
+    ::v-deep(.table-class tbody tr:hover) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
 </style>
