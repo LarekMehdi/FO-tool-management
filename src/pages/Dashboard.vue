@@ -129,7 +129,7 @@ import Icon from '../components/shared/Icon.vue';
                 icon="wrench"
                 fromColor="from-blue-400"
                 toColor="to-purple-700"
-                :content="displayAnalytics.active_tools"
+                :content="displayAnalytics.active_tools ?? 'Missing data'"
                 :delta="displayAnalytics.tools_change"
             />
             <DashboardCard
@@ -137,7 +137,7 @@ import Icon from '../components/shared/Icon.vue';
                 icon="building"
                 fromColor="from-orange-400"
                 toColor="to-red-600"
-                :content="displayAnalytics.departments_count"
+                :content="displayAnalytics.departments_count ?? 'Missing data'"
                 :delta="displayAnalytics.departments_change"
             />
             <DashboardCard

@@ -29,8 +29,8 @@ export interface CostAnalytics {
 export interface DisplayAnalytics {
     budget_monthly_limit: string;
     budget_current_month_total: string;
-    active_tools: string;
-    departments_count: string;
+    active_tools: string | null;
+    departments_count: string | null;
     cost_per_user: string;
     budget_change: string;
     tools_change: string;

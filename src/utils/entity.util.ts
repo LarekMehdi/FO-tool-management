@@ -102,8 +102,8 @@ export abstract class UtilEntity {
         const display: DisplayAnalytics = {
             budget_monthly_limit:  '/' + UtilNumber.toShort(analytics.budget_overview.monthly_limit, devise),
             budget_current_month_total: UtilNumber.toEnglishString(analytics.budget_overview.current_month_total, devise),
-            active_tools: "",       // API ne retourne pas l'info
-            departments_count: "",  // API ne retourne pas l'info
+            active_tools: null,       // API ne retourne pas l'info
+            departments_count: null,  // API ne retourne pas l'info
             cost_per_user: UtilNumber.toEnglishString(analytics.cost_analytics.cost_per_user, devise),
             budget_change: analytics.kpi_trends.budget_change,
             tools_change: analytics.kpi_trends.tools_change,
