@@ -14,6 +14,7 @@ import { useToast } from 'vue-toastification';
 import type { MonthlyCostAnalytics } from '../interfaces/analytics.interface';
 import { UtilMapper } from '../utils/mapper.util';
 import DonutChart from '../components/shared/DonutChart.vue';
+import { UtilEntity } from '../utils/entity.util';
 
 
 export default {
@@ -41,15 +42,8 @@ export default {
             }
         });
 
-        // DONUT => Données statiques temporaires
-        const tests = [
-            { department: 'Engineering', total_cost: 5400 },
-            { department: 'Marketing', total_cost: 2300 },
-            { department: 'Sales', total_cost: 3100 },
-            { department: 'HR', total_cost: 900 },
-        ];
-
-        const donutData = UtilChart.buildDepartmentCostDonutChartData(tests);
+        const departmentCost = computed(() => UtilEntity.computeDepartmentCost(allTools.value));
+        const donutData = computed(() => UtilChart.buildDepartmentCostDonutChartData(departmentCost.value));
         const donutOptions = UtilChart.getDefaultDonutOptions();
         const toolDatas = computed<MonthlyCostAnalytics[]>(() => 
             UtilMapper.mapToolListToMonthlyCostAnalytics(allTools.value)
@@ -58,6 +52,7 @@ export default {
             UtilChart.buildMonthlySpendLineChartData(toolDatas.value)
         );
         const chartOptions = UtilChart.getDefaultLineChartOptions();
+        
         
         return {
             chartData, 

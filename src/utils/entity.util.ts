@@ -4,6 +4,8 @@ import type { Analytics, DisplayAnalytics } from "../interfaces/analytics.interf
 import { UtilNumber } from "./number.util";
 import type { ToolStatus } from "../constantes/tool-status.constante";
 import type { ColorGradient } from "../interfaces/shared.interface";
+import type { DepartmentCost } from "../interfaces/department.interface";
+import type { Tool } from "../interfaces/tool.interface";
 
 export abstract class UtilEntity {
 
@@ -111,6 +113,31 @@ export abstract class UtilEntity {
             cost_by_user_change: analytics.kpi_trends.cost_per_user_change,
         }
         return display;
+    }
+
+    static computeDepartmentCost(tools: Tool[]): DepartmentCost[] {
+        const datas: DepartmentCost[] = [];
+        const toolsByDepartment: Map<string, Tool[]> = new Map<string, Tool[]>();
+
+        // regroupement des données
+        tools.forEach(tool => {
+            const dept = tool.owner_department || 'Unknown';
+            if (!toolsByDepartment.has(dept)) {
+                toolsByDepartment.set(dept, []);
+            }
+            toolsByDepartment.get(dept)!.push(tool);
+        });
+
+        // calcul des monthly_cost
+        toolsByDepartment.forEach((toolsInDept, department) => {
+            const total_cost = toolsInDept.reduce((sum, t) => sum + Number(t.monthly_cost || 0), 0);
+            datas.push({
+                department,
+                total_cost,
+            });
+        });
+
+        return datas;
     }
 
     /** STATUS **/

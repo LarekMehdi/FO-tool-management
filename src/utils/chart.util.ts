@@ -2,6 +2,7 @@ import type { ChartOptions } from "chart.js";
 import type { MonthlyCostAnalytics } from "../interfaces/analytics.interface";
 import type { ChartDataset, LineChartData } from "../interfaces/chart.interface";
 import { generateRandomColor } from "../constantes/color.constante";
+import type { DepartmentCost } from "../interfaces/department.interface";
 
 export abstract class UtilChart {
 
@@ -50,7 +51,7 @@ export abstract class UtilChart {
 
     /** DONUT CHART **/
 
-    static buildDepartmentCostDonutChartData(departmentAnalytics: { department: string; total_cost: number }[]) {
+    static buildDepartmentCostDonutChartData(departmentAnalytics: DepartmentCost[]) {
         const labels = departmentAnalytics.map(d => d.department);
         const values = departmentAnalytics.map(d => d.total_cost);
         const color = labels.map((_, index) => generateRandomColor(index));
