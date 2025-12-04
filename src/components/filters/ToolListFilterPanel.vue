@@ -3,6 +3,7 @@ import type { PropType } from 'vue';
 import type { ToolListFilter } from '../../interfaces/filter.interface';
 import InputText from '../inputs/InputText.vue';
 import FilterPanel from '../shared/FilterPanel.vue';
+import InputNumber from '../inputs/InputNumber.vue';
 
     export default {
         props: {
@@ -25,6 +26,7 @@ import FilterPanel from '../shared/FilterPanel.vue';
         components: {
             FilterPanel,
             InputText,
+            InputNumber,
         },
     }
 </script>
@@ -57,14 +59,33 @@ import FilterPanel from '../shared/FilterPanel.vue';
                 <InputText
                     v-model="filter.owner_department"
                     name="owner_department"
-                    label="Owner Department"
+                    label="Department"
                     :inline="true"
                     :displayLabel="false"
                     placeholder="Owner Department"
                 />
             </section>
-            
-            <!-- TODO: monthly_cost -->
+            <section class="mb-5">
+                <InputNumber
+                    v-model="filter.monthly_cost_min"
+                    name="monthly_cost_min"
+                    label="Monthly Cost (min)"
+                    :inline="true"
+                    :displayLabel="false"
+                    placeholder="Monthly Cost (min)"
+                />
+            </section>
+            <section class="mb-5">
+                <InputNumber
+                    v-model="filter.monthly_cost_max"
+                    name="monthly_cost_max"
+                    label="Monthly Cost (max)"
+                    :inline="true"
+                    :displayLabel="false"
+                    placeholder="Monthly Cost (max)"
+                />
+            </section>
+
             <!-- TODO: status -->
         </template>
     </FilterPanel>
