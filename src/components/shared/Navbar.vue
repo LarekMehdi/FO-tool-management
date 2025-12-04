@@ -1,6 +1,7 @@
 <script lang="ts">
 import type { ToolSearchFilter } from '../../interfaces/filter.interface';
 import InputText from '../inputs/InputText.vue';
+import Avatar from './Avatar.vue';
 import NavLink from './NavLink.vue';
 import Row from './Row.vue';
 import Tag from './Tag.vue';
@@ -27,6 +28,7 @@ export default {
         InputText,
         NavLink,
         Tag,
+        Avatar,
     }
 
 }
@@ -66,9 +68,10 @@ export default {
                 placeholder="Search tools..."
             />
             <div class="flex items-center gap-6 text-gray-500">
-                <i class="pi pi-moon"></i>
-                <i class="pi pi-bell"></i>
-                <i class="pi pi-cog"></i>
+                <i class="pi pi-moon" style="font-size: 20px;"></i>
+                <i class="pi pi-bell" style="font-size: 20px;"></i>
+                <i class="pi pi-cog" style="font-size: 20px;"></i>
+                <Avatar />
             </div>
         </template>
     </Row>

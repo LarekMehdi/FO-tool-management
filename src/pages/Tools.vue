@@ -282,7 +282,7 @@ export default {
                     <Column field="status" header="Status" sortable style="width: 5%;">
                         <template #body="slotProps">
                             <Tag
-                                :content="slotProps.data.status"
+                                :content="slotProps.data.status ?? 'unknown'"
                                 :fromColor="utilEntity.getStatusColor(slotProps.data.status).from"
                                 :toColor="utilEntity.getStatusColor(slotProps.data.status).to"
                             />
