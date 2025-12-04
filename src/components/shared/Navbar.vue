@@ -71,7 +71,25 @@ export default {
             />
             <div class="flex items-center gap-6 text-gray-500">
                 <i class="pi pi-moon cursor-pointer" style="font-size: 20px;"></i>
-                <i class="pi pi-bell cursor-pointer" style="font-size: 20px;"></i>
+
+                <div class="relative flex items-center cursor-pointer">
+                    <i class="pi pi-bell" style="font-size: 20px;"></i>
+                    <span
+                        v-if="true"
+                        class="absolute"
+                        style="
+                            top: -13px;
+                            right: -10px;
+                            width: 15px;
+                            height: 15px;
+                            background-color: red;
+                            border: 2px solid white;
+                            border-radius: 50%;
+                            display: inline-block;
+                        "
+                    ></span>
+                </div>
+
                 <i class="pi pi-cog cursor-pointer" style="font-size: 20px;"></i>
                 <Avatar />
                 <ToolActionMenu
