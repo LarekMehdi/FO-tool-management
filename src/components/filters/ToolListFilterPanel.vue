@@ -16,12 +16,12 @@ import InputNumber from '../inputs/InputNumber.vue';
                 required: true,
             }
         },
-        emits: ['update:display', 'apply-filter'],
+        emits: ['update:display', 'apply-filter', 'reset-filter'],
         methods: {
             handleApplyFilter() {
                 this.$emit('apply-filter', this.filter);
                 this.$emit('update:display', false);
-            }
+            },
         },
         components: {
             FilterPanel,
@@ -32,7 +32,12 @@ import InputNumber from '../inputs/InputNumber.vue';
 </script>
 
 <template>
-    <FilterPanel :display="display" @update:display="$emit('update:display', $event)" @apply-filter="handleApplyFilter">
+    <FilterPanel 
+        :display="display" 
+        @update:display="$emit('update:display', $event)" 
+        @apply-filter="handleApplyFilter"
+        @reset-filter="$emit('reset-filter');"
+    >
         <template #body>
            
             <section class="mb-5">

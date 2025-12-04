@@ -5,7 +5,7 @@ import Row from '../components/shared/Row.vue';
 import Title from '../components/shared/Title.vue';
 import { useToast } from 'vue-toastification';
 import { useInfiniteQuery, useQuery, type UseQueryReturnType } from '@tanstack/vue-query';
-import { computed, watch, onMounted, onUnmounted, ref, nextTick } from 'vue';
+import { computed, watch, onMounted, onUnmounted, ref, nextTick, reactive } from 'vue';
 import type { ToolListFilter } from '../interfaces/filter.interface';
 import { ToolService } from '../services/tool.service';
 import { ITEMS_PER_PAGE, SCROLL_THRESHOLD } from '../constantes/filter.constante';
@@ -27,10 +27,10 @@ export default {
         const dataTableRef = ref<any>(null);
         const displayFilterDrawer = ref<boolean>(false);
         let scrollListener: ((event: Event) => void) | null = null;
-        const filter: ToolListFilter = {
+        const filter = reactive<ToolListFilter> ({
             _limit: ITEMS_PER_PAGE,
             _offset: 0
-        };
+        });
         
 
         // Infinite Query
@@ -137,9 +137,20 @@ export default {
             displayFilterDrawer.value = !displayFilterDrawer.value;
         }
 
-        function handleApplyFilter(updatedFilter: ToolListFilter) {
-            console.log('Filter applied:', updatedFilter);
-            
+        function handleApplyFilter(_updatedFilter: ToolListFilter) {
+            toolsQuery.refetch();
+        }
+
+        function resetFilter() {
+            filter.name = undefined;
+            filter.category = undefined;
+            filter.category = undefined;
+            filter.owner_department = undefined;
+            filter.monthly_cost_min = undefined;
+            filter.monthly_cost_max = undefined;
+
+            filter._offset = 0;
+
             toolsQuery.refetch();
         }
 
@@ -166,6 +177,7 @@ export default {
             hasNextPage,
             toggleFilterDrawer,
             handleApplyFilter,
+            resetFilter,
             utilDate: UtilDate,
             utilNumber: UtilNumber,
             utilEntity: UtilEntity,
@@ -310,7 +322,12 @@ export default {
 
     <!-- ----------------- -->
 
-    <ToolListFilterPanel v-model:display="displayFilterDrawer" :filter="filter" @apply-filter="handleApplyFilter"/>
+    <ToolListFilterPanel 
+        v-model:display="displayFilterDrawer" 
+        :filter="filter" 
+        @apply-filter="handleApplyFilter"
+        @reset-filter="resetFilter"
+    />
     
 </template>
 
