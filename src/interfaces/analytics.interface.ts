@@ -37,3 +37,10 @@ export interface DisplayAnalytics {
     departments_change: string;
     cost_by_user_change: string;
 }
+
+export interface MonthlyCostAnalytics {
+  name: string;
+  monthly_cost: number;
+  previous_month_cost: number;
+  updated_at: string;
+}
