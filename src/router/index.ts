@@ -3,7 +3,7 @@ import Dashboard from '../pages/Dashboard.vue';
 import Tools from '../pages/Tools.vue';
 import Analytics from '../pages/Analytics.vue';
 
-const routes: RouteRecordRaw[] = [
+export const routes: RouteRecordRaw[] = [
     {
         path: "/",
         name: "dashboard",

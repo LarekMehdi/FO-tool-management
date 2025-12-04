@@ -6,14 +6,9 @@ import NavLink from './NavLink.vue';
 import Row from './Row.vue';
 import Tag from './Tag.vue';
 import ToolActionMenu from './ToolActionMenu.vue';
+import ToolNavMenu from './ToolNavMenu.vue';
 
 export default {
-    setup() {
-
-    },
-    mounted() {
-
-    },
     data(): {
         filter: ToolSearchFilter,
     }
@@ -31,6 +26,7 @@ export default {
         Tag,
         Avatar,
         ToolActionMenu,
+        ToolNavMenu,
     }
 
 }
@@ -42,16 +38,11 @@ export default {
     <Row class="h-16 px-3 sm:px-6 lg:px-10">
 
         <template #left>
-            <div class="flex items-center gap-3 sm:gap-6">
-                <Tag
-                    content="bolt"
-                    :isIcon="true"
-                    fromColor="from-blue-500"
-                    toColor="to-purple-700"
-                    :isRounded="true"
-                />
+            <div class="relative flex items-center gap-3 sm:gap-6">
+                
+                <ToolNavMenu />
                 <p class="font-bold text-sm sm:text-base">TechCorp</p>
-                <!-- TODO: menu mobile -->
+
                 <div class="hidden md:flex items-center gap-6">
                     <NavLink to="/">Dashboard</NavLink>
                     <NavLink to="/tools">Tools</NavLink>
