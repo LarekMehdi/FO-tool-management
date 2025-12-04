@@ -20,16 +20,16 @@ import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
 import Icon from '../components/shared/Icon.vue';
 import type { Department } from '../interfaces/department.interface';
 import { DepartmentService } from '../services/department.service';
+import { useToolStore } from '../stores/tool.store';
 
 
     export default {
         setup() {
 
             const toast = useToast();
-            const filter = reactive<GenericFilter>({
-                _limit: 10,
-                _offset: 0
-            });
+            const filter = reactive<GenericFilter>({ _limit: 10, _offset: 0});
+            const toolStore = useToolStore();
+            const toolActiveCount = computed(() => UtilEntity.computeActiveTools(toolStore.allTools));
 
             // Query TanStack avec computed pour la queryKey réactive
             // TODO: updated_at <= 30 jours
@@ -70,11 +70,10 @@ import { DepartmentService } from '../services/department.service';
             watch(() => departmentsQuery.error.value, (err: unknown) => {
                 if (err) toast.error('An error occured while fetching departments data');
             });
-            // watch(() => toolsQuery.isSuccess.value, (ok) => {
-            //     if (ok) {
-            //         toast.success("Tools loaded successfully !");
-            //     }
-            // });
+            watch(() => toolStore.error, (err: unknown) => {
+                if (err) toast.error('An error occured while fetching all tools');
+            });
+
 
             // Méthodes
             function onPage(event: DataTablePageEvent) {
@@ -99,6 +98,7 @@ import { DepartmentService } from '../services/department.service';
                 toolsQuery,
                 departments,
                 loadingDepartments,
+                toolActiveCount,
                 onPage,
                 onSort,
                 utilNumber: UtilNumber,
@@ -139,7 +139,7 @@ import { DepartmentService } from '../services/department.service';
                 icon="wrench"
                 fromColor="from-blue-400"
                 toColor="to-purple-700"
-                :content="displayAnalytics.active_tools ?? 'Missing data'"
+                :content="toolActiveCount ?? 'Missing data'"
                 :delta="displayAnalytics.tools_change"
             />
             <DashboardCard
@@ -147,7 +147,7 @@ import { DepartmentService } from '../services/department.service';
                 icon="building"
                 fromColor="from-orange-400"
                 toColor="to-red-600"
-                :content="String(departments.length) ?? 'Missing data'"
+                :content="departments.length ?? 'Missing data'"
                 :delta="displayAnalytics.departments_change"
             />
             <DashboardCard

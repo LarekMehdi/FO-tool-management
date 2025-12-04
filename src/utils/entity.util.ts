@@ -139,8 +139,13 @@ export abstract class UtilEntity {
         return datas;
     }
 
+    static computeActiveTools(tools: Tool[]): number {
+        return tools.filter(tool => tool.status === 'active').length;
+    }
+
     /** STATUS **/
 
+    // TODO: a mettre dans UtilConstante
     static getStatusColor = (status: ToolStatus): ColorGradient => {
         switch(status) {
             case 'active': return { from: 'from-green-500', to: 'to-green-700' };

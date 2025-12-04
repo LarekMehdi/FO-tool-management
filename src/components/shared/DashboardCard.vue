@@ -25,7 +25,7 @@ import Tag from './Tag.vue';
                 default: 'to-blue-500'
             },
             content: {
-                type: String,
+                type: [String, Number],
                 required: true
             },
             content2: {
