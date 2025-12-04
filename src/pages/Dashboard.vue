@@ -18,13 +18,14 @@ import { useToast } from 'vue-toastification';
 import { UtilNumber } from '../utils/number.util';
 import ToolActionMenu from '../components/shared/ToolActionMenu.vue';
 import Icon from '../components/shared/Icon.vue';
+import type { Department } from '../interfaces/department.interface';
+import { DepartmentService } from '../services/department.service';
 
 
     export default {
         setup() {
 
             const toast = useToast();
-
             const filter = reactive<GenericFilter>({
                 _limit: 10,
                 _offset: 0
@@ -44,23 +45,30 @@ import Icon from '../components/shared/Icon.vue';
                 staleTime: 1000 * 60 * 5,
             });
 
+            const departmentsQuery: UseQueryReturnType<Department[], Error> = useQuery({
+                queryKey: computed(() => ['departments']),
+                queryFn: () => DepartmentService.findAll(),
+                staleTime: 1000 * 60 * 5,
+            });
+
             // Computed 
             const tools = computed(() => toolsQuery.data.value ?? []);
             const loadingTools = computed(() => toolsQuery.isLoading.value);
             const analytics = computed<Analytics>(() => analyticsQuery.data.value ?? emptyAnalytics);
             const loadingAnalytics = computed(() => analyticsQuery.isLoading.value);
             const displayAnalytics = computed<DisplayAnalytics>(() => UtilEntity.buildDisplayAnalytics(analytics.value));
+            const departments = computed<Department[]>(() => departmentsQuery.data.value ?? []);
+            const loadingDepartments = computed(() => departmentsQuery.isLoading.value);
 
             // Watchers
             watch(() => toolsQuery.error.value, (err: unknown) => {
-                if (err) {
-                    toast.error('An error occured while fetching tools data');
-                }
+                if (err) toast.error('An error occured while fetching tools data');
             });
             watch(() => analyticsQuery.error.value, (err: unknown) => {
-                if (err) {
-                    toast.error('An error occured while fetching analytics data');
-                }
+                if (err) toast.error('An error occured while fetching analytics data');
+            });
+            watch(() => departmentsQuery.error.value, (err: unknown) => {
+                if (err) toast.error('An error occured while fetching departments data');
             });
             // watch(() => toolsQuery.isSuccess.value, (ok) => {
             //     if (ok) {
@@ -89,6 +97,8 @@ import Icon from '../components/shared/Icon.vue';
                 loadingTools,
                 loadingAnalytics,
                 toolsQuery,
+                departments,
+                loadingDepartments,
                 onPage,
                 onSort,
                 utilNumber: UtilNumber,
@@ -137,7 +147,7 @@ import Icon from '../components/shared/Icon.vue';
                 icon="building"
                 fromColor="from-orange-400"
                 toColor="to-red-600"
-                :content="displayAnalytics.departments_count ?? 'Missing data'"
+                :content="String(departments.length) ?? 'Missing data'"
                 :delta="displayAnalytics.departments_change"
             />
             <DashboardCard
