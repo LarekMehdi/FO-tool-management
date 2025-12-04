@@ -5,6 +5,7 @@ import Avatar from './Avatar.vue';
 import NavLink from './NavLink.vue';
 import Row from './Row.vue';
 import Tag from './Tag.vue';
+import ToolActionMenu from './ToolActionMenu.vue';
 
 export default {
     setup() {
@@ -29,6 +30,7 @@ export default {
         NavLink,
         Tag,
         Avatar,
+        ToolActionMenu,
     }
 
 }
@@ -68,10 +70,19 @@ export default {
                 placeholder="Search tools..."
             />
             <div class="flex items-center gap-6 text-gray-500">
-                <i class="pi pi-moon" style="font-size: 20px;"></i>
-                <i class="pi pi-bell" style="font-size: 20px;"></i>
-                <i class="pi pi-cog" style="font-size: 20px;"></i>
+                <i class="pi pi-moon cursor-pointer" style="font-size: 20px;"></i>
+                <i class="pi pi-bell cursor-pointer" style="font-size: 20px;"></i>
+                <i class="pi pi-cog cursor-pointer" style="font-size: 20px;"></i>
                 <Avatar />
+                <ToolActionMenu
+                    :modelValue="0"
+                    firstLabel="Profil"
+                    secondLabel="Settings"
+                    thirdLabel="Deconnection"
+                    @details="() => console.log('open profil')"
+                    @edit="() => console.log('open settings')"
+                    @delete="() => console.log('Deconnection')"
+                />
             </div>
         </template>
     </Row>
