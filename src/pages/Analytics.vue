@@ -25,6 +25,7 @@ export default {
             _offset: 0
         };
 
+        // TODO: toolStore avec Pinia pour recup qu'une seule fois la liste complete et l'utiliser partout
         // query Tanstack
         const allToolsQuery: UseQueryReturnType<Tool[], Error> = useQuery({
             queryKey: ['all-tools'],
