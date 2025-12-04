@@ -6,54 +6,30 @@ import Row from '../components/shared/Row.vue';
 import Title from '../components/shared/Title.vue';
 import type { LineChartData } from '../interfaces/chart.interface';
 import { UtilChart } from '../utils/chart.util';
-import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query';
-import type { Tool } from '../interfaces/tool.interface';
-import { ToolService } from '../services/tool.service';
-import type { GenericFilter } from '../interfaces/filter.interface';
 import { useToast } from 'vue-toastification';
 import type { MonthlyCostAnalytics } from '../interfaces/analytics.interface';
 import { UtilMapper } from '../utils/mapper.util';
 import DonutChart from '../components/shared/DonutChart.vue';
 import { UtilEntity } from '../utils/entity.util';
-
+import { useToolStore } from '../stores/tool.store';
 
 export default {
     setup() {
         const toast = useToast();
-        const filter: GenericFilter = {
-            _limit: 9999,
-            _offset: 0
-        };
-
-        // TODO: toolStore avec Pinia pour recup qu'une seule fois la liste complete et l'utiliser partout
-        // query Tanstack
-        const allToolsQuery: UseQueryReturnType<Tool[], Error> = useQuery({
-            queryKey: ['all-tools'],
-            queryFn: () => ToolService.findAll(filter),
-            staleTime: 1000 * 60 * 5,
-        });
-
-        // Computed 
-        const allTools = computed(() => allToolsQuery.data.value ?? []);
+        const toolStore = useToolStore();
+        const allTools = computed(() => toolStore.allTools);
 
         // Watchers
-        watch(() => allToolsQuery.error.value, (err: unknown) => {
-            if (err) {
-                toast.error('An error occured while fetching tools');
-            }
+        watch(() => toolStore.error, (err: unknown) => {
+            if (err) toast.error('An error occured while fetching tools');
         });
 
         const departmentCost = computed(() => UtilEntity.computeDepartmentCost(allTools.value));
         const donutData = computed(() => UtilChart.buildDepartmentCostDonutChartData(departmentCost.value));
         const donutOptions = UtilChart.getDefaultDonutOptions();
-        const toolDatas = computed<MonthlyCostAnalytics[]>(() => 
-            UtilMapper.mapToolListToMonthlyCostAnalytics(allTools.value)
-        );
-        const chartData = computed<LineChartData>(() => 
-            UtilChart.buildMonthlySpendLineChartData(toolDatas.value)
-        );
+        const toolDatas = computed<MonthlyCostAnalytics[]>(() => UtilMapper.mapToolListToMonthlyCostAnalytics(allTools.value));
+        const chartData = computed<LineChartData>(() => UtilChart.buildMonthlySpendLineChartData(toolDatas.value));
         const chartOptions = UtilChart.getDefaultLineChartOptions();
-        
         
         return {
             chartData, 

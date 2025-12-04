@@ -22,6 +22,9 @@ import '@fontsource/inter/800.css';
 import Toast, { POSITION, type PluginOptions } from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
+/** STORE **/
+import { createPinia } from 'pinia';
+
 
 
 const options: PluginOptions = {
@@ -30,6 +33,7 @@ const options: PluginOptions = {
 
 const queryClient = new QueryClient()
 const app = createApp(App);
+app.use(createPinia());
 app.use(router);
 app.use(VueQueryPlugin, { queryClient });
 app.use(Toast, options);
