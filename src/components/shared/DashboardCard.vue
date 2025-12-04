@@ -47,8 +47,7 @@ import Tag from './Tag.vue';
 </script>
 
 <template>
-    <!-- TODO: hover -->
-    <Card>
+    <Card class="transition-colors duration-200 hover:bg-gray-100">
         <article class="flex flex-col justify-between h-full">
             <section>
                 <Row class="mb-10">
