@@ -12,21 +12,19 @@ import {
   type ChartOptions
 } from 'chart.js'
 import type { LineChartData } from '../../interfaces/chart.interface';
+import type { PropType } from 'vue';
 ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale);
 
     export default {
         props: {
             chartData: {
-                type: Object as () => LineChartData,
+                type: Object as PropType<LineChartData>,
                 required: true,
             },
             chartOptions: {
-                type: Object as () => ChartOptions<'line'>,
+                type: Object as PropType<ChartOptions<'line'>>,
                 required: true,
             }
-        },
-        mounted() {
-            
         },
         components: {
             Line,

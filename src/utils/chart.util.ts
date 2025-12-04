@@ -1,16 +1,19 @@
 import type { ChartOptions } from "chart.js";
 import type { MonthlyCostAnalytics } from "../interfaces/analytics.interface";
 import type { ChartDataset, LineChartData } from "../interfaces/chart.interface";
+import { generateRandomColor } from "../constantes/color.constante";
 
 export abstract class UtilChart {
+
+    /** LINE CHART **/
 
     static buildMonthlySpendLineChartData(tools: MonthlyCostAnalytics[]): LineChartData {
         const labels = ['Previous Month', 'Current Month'];
 
-        const datasets: ChartDataset[] = tools.map(tool => ({
+        const datasets: ChartDataset[] = tools.map((tool, index) => ({
             label: tool.name,
             data: [tool.previous_month_cost, tool.monthly_cost],
-            borderColor: this.generateRandomColor(),
+            borderColor: generateRandomColor(index),
             backgroundColor: 'rgba(0,0,0,0)',
             tension: 0.4
         }));
@@ -22,6 +25,7 @@ export abstract class UtilChart {
     static getDefaultLineChartOptions(): ChartOptions<'line'> {
         return {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: 'top'
@@ -44,11 +48,49 @@ export abstract class UtilChart {
         };
     }
 
-    static generateRandomColor(): string {
-        const r = Math.floor(Math.random() * 200);
-        const g = Math.floor(Math.random() * 200);
-        const b = Math.floor(Math.random() * 200);
-        return `rgb(${r},${g},${b})`;
+    /** DONUT CHART **/
+
+    static buildDepartmentCostDonutChartData(departmentAnalytics: { department: string; total_cost: number }[]) {
+        const labels = departmentAnalytics.map(d => d.department);
+        const values = departmentAnalytics.map(d => d.total_cost);
+        const color = labels.map((_, index) => generateRandomColor(index));
+
+        return {
+            labels,
+            datasets: [
+                {
+                    data: values,
+                    backgroundColor: color,
+                    borderColor: '#ffffff',
+                    borderWidth: 2,
+                }
+            ]
+        };
     }
+
+    static getDefaultDonutOptions(): ChartOptions<'doughnut'> {
+        return {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true,
+                    },
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            return `${label}: €${value}`;
+                        },
+                    },
+                },
+            },
+        };
+    }
+
 
 }
