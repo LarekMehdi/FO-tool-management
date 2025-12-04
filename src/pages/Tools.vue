@@ -306,9 +306,10 @@ export default {
                                 <section class="flex justify-center items-center">
                                     <ToolActionMenu
                                         :modelValue="slotProps.data.id"
+                                        :thirdLabel="slotProps.data.status === 'active' ? 'Disable' : 'Enable'"
                                         @details="(id: number) => console.log('open details', id)"
                                         @edit="(id: number) => console.log('edit', id)"
-                                        @delete="(id: number) => console.log('delete', id)"
+                                        @delete="(id: number) => console.log('disable/Enable', id)"
                                     />
                                 </section>
                             </template>

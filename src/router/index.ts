@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import Dashboard from '../pages/Dashboard.vue';
 import Tools from '../pages/Tools.vue';
+import Analytics from '../pages/Analytics.vue';
 
 const routes: RouteRecordRaw[] = [
     {
@@ -12,6 +13,11 @@ const routes: RouteRecordRaw[] = [
         path: "/tools",
         name: "tools",
         component: Tools,
+    },
+    {
+        path: "/analytics",
+        name: "analytics",
+        component: Analytics,
     },
 ];
 

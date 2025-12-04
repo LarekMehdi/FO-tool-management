@@ -51,10 +51,11 @@ export default {
                     :isRounded="true"
                 />
                 <p class="font-bold text-sm sm:text-base">TechCorp</p>
+                <!-- TODO: menu mobile -->
                 <div class="hidden md:flex items-center gap-6">
                     <NavLink to="/">Dashboard</NavLink>
                     <NavLink to="/tools">Tools</NavLink>
-                    <NavLink to="/#">Analytics</NavLink>
+                    <NavLink to="/analytics">Analytics</NavLink>
                     <NavLink to="/#">Settings</NavLink>
                 </div>
             </div>
