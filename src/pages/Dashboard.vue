@@ -114,7 +114,7 @@ import Icon from '../components/shared/Icon.vue';
     <article class="min-h-screen flex flex-col gap-6">
         <Title content="Internal Tools Dashboard" subTitle="Monitor and manage your organization's software tools and expenses"/>
 
-        <section class="grid grid-cols-4 gap-6 sm:grid-cols-2 md:grid-cols-4">
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:grid-cols-4">
             <DashboardCard
                 title="Monthly Budget"
                 icon="chart-line"
@@ -162,68 +162,69 @@ import Icon from '../components/shared/Icon.vue';
                     </template>
                 </Row>
 
-                <!-- TODO: hover rows -->
                 <!-- hack, l'API ne renvois pas le totalRecords -->
-                <DataTable 
-                    class="table-class" 
-                    :value="tools" 
-                    tableStyle="min-width: 50rem"
-                    :loading="loadingTools"
-                    :lazy="true"
-                    :paginator="true"
-                    :rows="10"
-                    :totalRecords="99999"
-                    style="width: 100%;"
-                    @page="onPage"
-                    @sort="onSort"
-                >
-                    <template #empty>
-                        <div class="text-center py-8 text-gray-500"> No data </div>
-                    </template>
-                    
-                    <template #loading>
-                        <div class="text-center py-8">
-                            <span class="text-gray-600">Loading data...</span>
-                        </div>
-                    </template>
+                <article class="overflow-x-auto">
+                    <DataTable 
+                        class="table-class" 
+                        :value="tools" 
+                        tableStyle="min-width: 50rem"
+                        :loading="loadingTools"
+                        :lazy="true"
+                        :paginator="true"
+                        :rows="10"
+                        :totalRecords="99999"
+                        style="width: 100%;"
+                        @page="onPage"
+                        @sort="onSort"
+                    >
+                        <template #empty>
+                            <div class="text-center py-8 text-gray-500"> No data </div>
+                        </template>
+                        
+                        <template #loading>
+                            <div class="text-center py-8">
+                                <span class="text-gray-600">Loading data...</span>
+                            </div>
+                        </template>
 
-                    <Column field="name" header="Tool" sortable style="width: 40%;">
-                        <template #body="slotProps">
-                            <section class="flex items-center gap-8">
-                                <Icon :iconUrl="slotProps.data.icon_url"/>
-                                <strong>{{ slotProps.data.name }}</strong>
-                            </section>
-                        </template>
-                    </Column>
-                    <Column field="owner_department" header="Department" sortable style="width: 15%;"></Column>
-                    <Column field="active_users_count" header="Users" sortable style="width: 15%;"></Column>
-                    <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 15%;">
-                        <template #body="slotProps">
-                            {{ slotProps.data.monthly_cost ? utilNumber.toEnglishString(slotProps.data.monthly_cost) : '-' }}
-                        </template>
-                    </Column>
-                    <Column field="status" header="Status" sortable style="width: 15%;">
-                        <template #body="slotProps">
-                            <Tag
-                                :content="slotProps.data.status ?? 'unknown'"
-                                :fromColor="utilEntity.getStatusColor(slotProps.data.status).from"
-                                :toColor="utilEntity.getStatusColor(slotProps.data.status).to"
-                            />
-                        </template>
-                    </Column>
-                    <Column header="Action" style="width: 5%;">
-                        <template #body="slotProps">
-                            <section class="flex justify-center items-center">
-                                <ToolActionMenu
-                                    :modelValue="slotProps.data.id"
-                                    @details="(id: number) => console.log('open details', id)"
-                                    @edit="(id: number) => console.log('edit', id)"
-                                    @delete="(id: number) => console.log('delete', id)"
+                        <Column field="name" header="Tool" sortable style="width: 40%;">
+                            <template #body="slotProps">
+                                <section class="flex items-center gap-8">
+                                    <Icon :iconUrl="slotProps.data.icon_url"/>
+                                    <strong>{{ slotProps.data.name }}</strong>
+                                </section>
+                            </template>
+                        </Column>
+                        <Column field="owner_department" header="Department" sortable style="width: 15%;"></Column>
+                        <Column field="active_users_count" header="Users" sortable style="width: 15%;"></Column>
+                        <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 15%;">
+                            <template #body="slotProps">
+                                {{ slotProps.data.monthly_cost ? utilNumber.toEnglishString(slotProps.data.monthly_cost) : '-' }}
+                            </template>
+                        </Column>
+                        <Column field="status" header="Status" sortable style="width: 15%;">
+                            <template #body="slotProps">
+                                <Tag
+                                    :content="slotProps.data.status ?? 'unknown'"
+                                    :fromColor="utilEntity.getStatusColor(slotProps.data.status).from"
+                                    :toColor="utilEntity.getStatusColor(slotProps.data.status).to"
                                 />
-                            </section>
-                        </template>
-                    </Column>
-                </DataTable>
+                            </template>
+                        </Column>
+                        <Column header="Action" style="width: 5%;">
+                            <template #body="slotProps">
+                                <section class="flex justify-center items-center">
+                                    <ToolActionMenu
+                                        :modelValue="slotProps.data.id"
+                                        @details="(id: number) => console.log('open details', id)"
+                                        @edit="(id: number) => console.log('edit', id)"
+                                        @delete="(id: number) => console.log('delete', id)"
+                                    />
+                                </section>
+                            </template>
+                        </Column>
+                    </DataTable>
+                </article>
             </Card>
         </section>
     </article>

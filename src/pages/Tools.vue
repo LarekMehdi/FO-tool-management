@@ -204,7 +204,7 @@ export default {
     <article class="min-h-screen flex flex-col gap-6">
         <Title content="Your Organization's Tools" subTitle="Track usage, cost, and status of your tools"/>
 
-        <section class="grid grid-cols-4 gap-6 sm:grid-cols-2 md:grid-cols-4">
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:grid-cols-4">
             <DashboardCard
                 title="Most Expensive Tool"
                 icon="dollar"
@@ -249,70 +249,72 @@ export default {
                     </template>
                 </Row>
 
-                <DataTable 
-                    ref="dataTableRef"
-                    class="table-class" 
-                    :value="tools" 
-                    tableStyle="min-width: 50rem"
-                    :loading="loadingTools"
-                    :scrollable="true"
-                    scrollHeight="500px"
-                    style="width: 100%;"
-                >
-                    <template #empty>
-                        <div class="text-center py-8 text-gray-500"> No tools found </div>
-                    </template>
-                    
-                    <template #loading>
-                        <div class="text-center py-8">
-                            <span class="text-gray-600">Loading data...</span>
-                        </div>
-                    </template>
+                <article class="overflow-x-auto">
+                    <DataTable 
+                        ref="dataTableRef"
+                        class="table-class" 
+                        :value="tools" 
+                        tableStyle="min-width: 50rem"
+                        :loading="loadingTools"
+                        :scrollable="true"
+                        scrollHeight="500px"
+                        style="width: 100%;"
+                    >
+                        <template #empty>
+                            <div class="text-center py-8 text-gray-500"> No tools found </div>
+                        </template>
+                        
+                        <template #loading>
+                            <div class="text-center py-8">
+                                <span class="text-gray-600">Loading data...</span>
+                            </div>
+                        </template>
 
-                    <Column field="name" header="Tool" sortable style="width: 10%;">
-                        <template #body="slotProps">
-                            <section class="flex items-center gap-8">
-                                <Icon :iconUrl="slotProps.data.icon_url"/>
-                                <strong>{{ slotProps.data.name }}</strong>
-                            </section>
-                        </template>
-                    </Column>
-                    <Column field="description" header="Description" sortable style="width: 35%;"></Column>
-                    <Column field="category" header="Category" sortable style="width: 10%;"></Column>
-                    <Column field="status" header="Status" sortable style="width: 5%;">
-                        <template #body="slotProps">
-                            <Tag
-                                :content="slotProps.data.status ?? 'unknown'"
-                                :fromColor="utilEntity.getStatusColor(slotProps.data.status).from"
-                                :toColor="utilEntity.getStatusColor(slotProps.data.status).to"
-                            />
-                        </template>
-                    </Column>
-                    <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 5%;">
-                        <template #body="slotProps">
-                            {{ slotProps.data.monthly_cost ? utilNumber.toEnglishString(slotProps.data.monthly_cost) : '-' }}
-                        </template>
-                    </Column>
-                    <Column field="updated_at" header="Last Update" sortable style="width: 15%;">
-                        <template #body="slotProps">
-                            {{ slotProps.data.updated_at ? utilDate.formatEnglish(slotProps.data.updated_at) : '-' }}
-                        </template>
-                    </Column>
-                    <Column field="owner_department" header="Department" sortable style="width: 10%;"></Column>
-                    <Column field="active_users_count" header="User Count" sortable style="width: 5%;"></Column>
-                    <Column header="Action" style="width: 5%;">
-                        <template #body="slotProps">
-                            <section class="flex justify-center items-center">
-                                 <ToolActionMenu
-                                    :modelValue="slotProps.data.id"
-                                    @details="(id: number) => console.log('open details', id)"
-                                    @edit="(id: number) => console.log('edit', id)"
-                                    @delete="(id: number) => console.log('delete', id)"
+                        <Column field="name" header="Tool" sortable style="width: 10%;">
+                            <template #body="slotProps">
+                                <section class="flex items-center gap-8">
+                                    <Icon :iconUrl="slotProps.data.icon_url"/>
+                                    <strong>{{ slotProps.data.name }}</strong>
+                                </section>
+                            </template>
+                        </Column>
+                        <Column field="description" header="Description" sortable style="width: 35%;"></Column>
+                        <Column field="category" header="Category" sortable style="width: 10%;"></Column>
+                        <Column field="status" header="Status" sortable style="width: 5%;">
+                            <template #body="slotProps">
+                                <Tag
+                                    :content="slotProps.data.status ?? 'unknown'"
+                                    :fromColor="utilEntity.getStatusColor(slotProps.data.status).from"
+                                    :toColor="utilEntity.getStatusColor(slotProps.data.status).to"
                                 />
-                            </section>
-                        </template>
-                    </Column>
-                </DataTable>
+                            </template>
+                        </Column>
+                        <Column field="monthly_cost" header="Monthly Cost" sortable style="width: 5%;">
+                            <template #body="slotProps">
+                                {{ slotProps.data.monthly_cost ? utilNumber.toEnglishString(slotProps.data.monthly_cost) : '-' }}
+                            </template>
+                        </Column>
+                        <Column field="updated_at" header="Last Update" sortable style="width: 15%;">
+                            <template #body="slotProps">
+                                {{ slotProps.data.updated_at ? utilDate.formatEnglish(slotProps.data.updated_at) : '-' }}
+                            </template>
+                        </Column>
+                        <Column field="owner_department" header="Department" sortable style="width: 10%;"></Column>
+                        <Column field="active_users_count" header="User Count" sortable style="width: 5%;"></Column>
+                        <Column header="Action" style="width: 5%;">
+                            <template #body="slotProps">
+                                <section class="flex justify-center items-center">
+                                    <ToolActionMenu
+                                        :modelValue="slotProps.data.id"
+                                        @details="(id: number) => console.log('open details', id)"
+                                        @edit="(id: number) => console.log('edit', id)"
+                                        @delete="(id: number) => console.log('delete', id)"
+                                    />
+                                </section>
+                            </template>
+                        </Column>
+                    </DataTable>
+                </article>
 
                 <div v-if="isFetchingMore" class="text-center py-3 border-t">
                     <span class="text-gray-600">Loading more tools...</span>

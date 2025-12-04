@@ -39,10 +39,10 @@ export default {
 </script>
 
 <template>
-    <Row class="h-16 px-10">
+    <Row class="h-16 px-3 sm:px-6 lg:px-10">
 
         <template #left>
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3 sm:gap-6">
                 <Tag
                     content="bolt"
                     :isIcon="true"
@@ -50,29 +50,33 @@ export default {
                     toColor="to-purple-700"
                     :isRounded="true"
                 />
-                <p class="font-bold">TechCorp</p>
-                <NavLink to="/">Dashboard</NavLink>
-                <NavLink to="/tools">Tools</NavLink>
-                <NavLink to="/#">Analytics</NavLink>
-                <NavLink to="/#">Settings</NavLink>
+                <p class="font-bold text-sm sm:text-base">TechCorp</p>
+                <div class="hidden md:flex items-center gap-6">
+                    <NavLink to="/">Dashboard</NavLink>
+                    <NavLink to="/tools">Tools</NavLink>
+                    <NavLink to="/#">Analytics</NavLink>
+                    <NavLink to="/#">Settings</NavLink>
+                </div>
             </div>
             
         </template>
 
         <template #right>
-            <!-- TODO: mettre un autocomplete -->
-            <InputText
-                v-model="filter.query"
-                name="itemQuery"
-                label="query"
-                :inline="true"
-                :displayLabel="false"
-                placeholder="Search tools..."
-            />
-            <div class="flex items-center gap-6 text-gray-500">
-                <i class="pi pi-moon cursor-pointer" style="font-size: 20px;"></i>
+            <div class="flex items-center gap-4">
+                <!-- TODO: mettre un autocomplete -->
+                <div class="hidden sm:block">
+                    <InputText
+                        v-model="filter.query"
+                        name="itemQuery"
+                        label="query"
+                        :inline="true"
+                        :displayLabel="false"
+                        placeholder="Search tools..."
+                    />
+                </div>
+                <i class="pi pi-moon cursor-pointer hidden sm:block text-gray-500" style="font-size: 20px;"></i>
 
-                <div class="relative flex items-center cursor-pointer">
+                <div class="relative flex items-center cursor-pointer text-gray-500">
                     <i class="pi pi-bell" style="font-size: 20px;"></i>
                     <span
                         v-if="true"
@@ -90,17 +94,19 @@ export default {
                     ></span>
                 </div>
 
-                <i class="pi pi-cog cursor-pointer" style="font-size: 20px;"></i>
+                <i class="pi pi-cog cursor-pointer hidden lg:block text-gray-500" style="font-size: 20px;"></i>
                 <Avatar />
-                <ToolActionMenu
-                    :modelValue="0"
-                    firstLabel="Profil"
-                    secondLabel="Settings"
-                    thirdLabel="Deconnection"
-                    @details="() => console.log('open profil')"
-                    @edit="() => console.log('open settings')"
-                    @delete="() => console.log('Deconnection')"
-                />
+                <div class="hidden sm:block">
+                    <ToolActionMenu
+                        :modelValue="0"
+                        firstLabel="Profil"
+                        secondLabel="Settings"
+                        thirdLabel="Deconnection"
+                        @details="() => console.log('open profil')"
+                        @edit="() => console.log('open settings')"
+                        @delete="() => console.log('Deconnection')"
+                    />
+                </div>
             </div>
         </template>
     </Row>
