@@ -4,6 +4,9 @@ import type { ToolListFilter } from '../../interfaces/filter.interface';
 import InputText from '../inputs/InputText.vue';
 import FilterPanel from '../shared/FilterPanel.vue';
 import InputNumber from '../inputs/InputNumber.vue';
+import InputSelect from '../inputs/InputSelect.vue';
+import type { OptionSelectInterface } from '../../interfaces/input.interface';
+import { getToolStatusOptions } from '../../constantes/tool-status.constante';
 
     export default {
         props: {
@@ -16,17 +19,27 @@ import InputNumber from '../inputs/InputNumber.vue';
                 required: true,
             }
         },
+        data(): {
+            statusOptions: OptionSelectInterface[]
+        }
+        {
+            return {
+                statusOptions: [],
+            }
+        },
         emits: ['update:display', 'apply-filter', 'reset-filter'],
         methods: {
             handleApplyFilter() {
                 this.$emit('apply-filter', this.filter);
                 this.$emit('update:display', false);
             },
+            getToolStatusOptions,
         },
         components: {
             FilterPanel,
             InputText,
             InputNumber,
+            InputSelect,
         },
     }
 </script>
@@ -78,6 +91,7 @@ import InputNumber from '../inputs/InputNumber.vue';
                     :inline="true"
                     :displayLabel="false"
                     placeholder="Monthly Cost (min)"
+                    symbol="€"
                 />
             </section>
             <section class="mb-5">
@@ -88,10 +102,21 @@ import InputNumber from '../inputs/InputNumber.vue';
                     :inline="true"
                     :displayLabel="false"
                     placeholder="Monthly Cost (max)"
+                    symbol="€"
                 />
             </section>
-
-            <!-- TODO: status -->
+            <section class="mb-5">
+                <InputSelect
+                    v-model="filter.status"
+                    name="status"
+                    label="Status"
+                    placeholder="Status"
+                    :inline="true"
+                    :displayLabel="false"
+                    :options="getToolStatusOptions()"
+                />
+            </section>
+            
         </template>
     </FilterPanel>
 </template>

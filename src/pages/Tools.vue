@@ -144,7 +144,7 @@ export default {
         function resetFilter() {
             filter.name = undefined;
             filter.category = undefined;
-            filter.category = undefined;
+            filter.status = undefined;
             filter.owner_department = undefined;
             filter.monthly_cost_min = undefined;
             filter.monthly_cost_max = undefined;
