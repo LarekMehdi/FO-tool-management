@@ -30,7 +30,12 @@ Cette structure sert de base solide pour faire évoluer l’application en ajout
 
 - ### interfaces/
 Contient les définitions de types et interfaces TypeScript pour toutes les entités.
-- Permet d’avoir une source unique de vérité pour le typage et facilite la réutilisation et la cohérence dans tout le projet.
+Permet d’avoir une source unique de vérité pour le typage et facilite la réutilisation et la cohérence dans tout le projet.
+
+- ### stores/
+Couche d’état globale qui centralise les données partagées entre plusieurs composants et pages.
+Permet de stocker et gérer des données persistantes côté client, comme la liste complète des outils, et d’éviter de multiplier les requêtes sur plusieurs pages.
+Intégré avec TanStack Query, il profite de la mise en cache.
 
 - ### api/
 Contient les appels directs à l’API (axios).
@@ -94,6 +99,7 @@ Le logo en haut a gauche devient clickable sur mobile et permet de naviguer entr
     - Caching avec TanStack Query (staleTime)
     - Lazy loading des composants et tables
     - Minimisation des re-renders grâce aux computed
+    - Partage de données entre composant avec un store Pinia
 
 ## 🎯 Design Consistency Approach
 - Cohérence maintenue sans mockups:
@@ -110,5 +116,4 @@ Le logo en haut a gauche devient clickable sur mobile et permet de naviguer entr
 - Export de rapports
 - Notifications avancées
 - Historique et tracking des actions utilisateurs
-- Mise en place de Pinia pour gérer le context (authStore, toolStore, etc)
 - CRUD complet de toutes les entités
