@@ -1,6 +1,6 @@
 import { ToolApi } from "../api/tool.api";
 import type { GenericFilter, ToolListFilter } from "../interfaces/filter.interface";
-import type { Tool } from "../interfaces/tool.interface";
+import type { CreateTool, Tool } from "../interfaces/tool.interface";
 
 export abstract class ToolService {
 
@@ -36,5 +36,23 @@ export abstract class ToolService {
             status: 'active',
         };
         return await ToolApi.findAll(filter);
+    }
+
+    /** CREATE **/
+
+    static async createTool(tool: CreateTool): Promise<Tool> {
+        return await ToolApi.createTool(tool);
+    }
+
+    /** UPDATE **/
+
+    static async updateTool(tool: Tool): Promise<Tool> {
+        return await ToolApi.updateTool(tool);
+    }
+
+    /** DELETE **/
+
+    static async deleteTool(toolId: number): Promise<number> {
+        return await ToolApi.deleteTool(toolId);
     }
 }

@@ -34,3 +34,14 @@ export interface SmallTool {
     name: string;
     monthly_cost: number;
 }
+
+export interface CreateTool {
+    name: string;
+    description: string;
+    vendor: string;
+    category: string;
+    monthly_cost: number;
+    owner_department: string;
+    website_url?: string;
+    icon_url?: string;
+}

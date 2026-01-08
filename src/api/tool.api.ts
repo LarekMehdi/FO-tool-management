@@ -1,5 +1,5 @@
 import type { GenericFilter, ToolListFilter } from "../interfaces/filter.interface";
-import type { Tool } from "../interfaces/tool.interface";
+import type { CreateTool, Tool } from "../interfaces/tool.interface";
 import { UtilEntity } from "../utils/entity.util";
 import { useApi } from "./useApi";
 
@@ -25,6 +25,39 @@ export abstract class ToolApi {
             return data;
         } catch(e: unknown) {
             console.error(e);
+            throw e;
+        }
+    }
+
+    /** CREATE **/
+
+    static async createTool(tool: CreateTool): Promise<Tool> {
+        try {
+            const { data } = await useApi().post(`/tools`, tool);
+            return data;
+        } catch(e: unknown) {
+            throw e;
+        }
+    }
+
+    /** UPDATE **/
+
+    static async updateTool(tool: Tool): Promise<Tool> {
+        try {
+            const { data } = await useApi().put(`/tools/${tool.id}`, tool);
+            return data;
+        } catch(e: unknown) {
+            throw e;
+        }
+    }
+
+    /** DELETE **/
+
+    static async deleteTool(toolId: number): Promise<number> {
+        try {
+            const { data } = await useApi().delete(`/tools/${toolId}`);
+            return data;
+        } catch(e: unknown) {
             throw e;
         }
     }
